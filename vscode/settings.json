@@ -1,0 +1,180 @@
+{
+    "editor.minimap.enabled": false,
+    "editor.wordWrap": "on",
+    "editor.fontFamily": "'Ricty Diminished', Consolas, 'Courier New', monospace",
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.acceptSuggestionOnEnter": "off",
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "extensions.ignoreRecommendations": true,
+    "security.workspace.trust.untrustedFiles": "open",
+    "security.allowedUNCHosts": [
+        "wsl.localhost"
+    ],
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.startupEditor": "none",
+    "update.showReleaseNotes": false,
+    "update.mode": "none",
+
+    // git
+    "git.confirmSync": false,
+    "github.copilot.editor.enableAutoCompletions": true,
+
+    // python
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.acceptSuggestionOnEnter": "off",
+        "editor.tabSize": 4,
+    },
+    "flake8.args": [
+        "--max-line-length=88",
+        "--ignore=E203,W503,W504"
+    ],
+    "black-formatter.args": [
+        "--skip-string-normalization"
+    ],
+    "flake8.severity": {
+        "E": "Warning",
+        "F": "Warning"
+    },
+
+    // latex
+    "[tex]": {
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        "editor.tabSize": 2,
+        "editor.formatOnSave": true,
+    },
+    "[latex]": {
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        "editor.tabSize": 2,
+    },
+    "[bibtex]": {
+        "editor.tabSize": 2,
+    },
+
+    "latex-workshop.latex.tools": [
+        {
+            "name": "platex",
+            "command": "platex",
+            "args": [
+                "-file-line-error",
+                "-halt-on-error",
+                "-interaction=nonstopmode",
+                "-kanji=utf8",
+                "%DOCFILE%.tex"
+            ]
+        },
+        {
+            "name": "dvipdfmx",
+            "command": "dvipdfmx",
+            "args": [
+                "-V 4",
+                "%DOCFILE%.dvi"
+            ]
+        },
+        {
+            "name": "uplatex",
+            "command": "uplatex",
+            "args": [
+                "-file-line-error",
+                "-halt-on-error",
+                "-interaction=nonstopmode",
+                "-kanji=utf8",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-silent",
+                "%DOCFILE%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk",
+            "tools": [
+                "latexmk"
+            ]
+        },
+        {
+            "name": "platex*3 → dvipdfmx",
+            "tools": [
+                "platex",
+                "platex",
+                "platex",
+                "dvipdfmx"
+            ]
+        },
+        {
+            "name": "uplatex*2 → dvipdfmx",
+            "tools": [
+                "uplatex",
+                "uplatex",
+                "dvipdfmx"
+            ]
+        },
+    ],
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "workbench.editorAssociations": {
+        "*.pdf": "latex-workshop-pdf-hook"
+    },
+    "latex-workshop.view.pdf.zoom": "page-fit",
+    "latex-workshop.intellisense.package.enabled": true,
+    "latex-workshop.latex.clean.fileTypes": [
+        "%DOCFILE%.aux",
+        "%DOCFILE%.bbl",
+        "%DOCFILE%.blg",
+        "%DOCFILE%.idx",
+        "%DOCFILE%.ind",
+        "%DOCFILE%.lof",
+        "%DOCFILE%.lot",
+        "%DOCFILE%.out",
+        "%DOCFILE%.toc",
+        "%DOCFILE%.acn",
+        "%DOCFILE%.acr",
+        "%DOCFILE%.alg",
+        "%DOCFILE%.glg",
+        "%DOCFILE%.glo",
+        "%DOCFILE%.gls",
+        "%DOCFILE%.fls",
+        // "%DOCFILE%.log",
+        "%DOCFILE%.fdb_latexmk",
+        "%DOCFILE%.snm",
+        "%DOCFILE%.synctex(busy)",
+        "%DOCFILE%.synctex.gz(busy)",
+        "%DOCFILE%.synctex.gz",
+        "%DOCFILE%.nav",
+        "%DOCFILE%.vrb"
+    ],
+    "latex-workshop.latex.autoClean.run": "onBuilt",
+
+    // latexindent
+    "latex-workshop.latexindent.path": "C:\\Users\\blues\\scoop\\apps\\latexindent\\current\\bin\\windows\\latexindent.exe",
+    "latex-workshop.latexindent.args": [
+        // "-c",
+        "%DIR%/",
+        "%TMPFILE%",
+        // "-y=defaultIndent: '%INDENT%'"
+    ]
+}
+
+// Tried to use SumatraPDF as an external viewer, but inverse search doesn't work well.
+// "latex-workshop.view.pdf.viewer": "external",
+// "latex-workshop.view.pdf.external.viewer.command": "C:\\Users\\blues\\scoop\\apps\\sumatrapdf\\current\\SumatraPDF.exe",
+// "latex-workshop.view.pdf.external.viewer.args": [
+//     "-reuse-instance",
+//     "%PDF%"
+// ],
+// "latex-workshop.view.pdf.external.synctex.command": "C:\\Users\\blues\\scoop\\apps\\sumatrapdf\\current\\SumatraPDF.exe",
+// "latex-workshop.view.pdf.external.synctex.args": [
+//     "-reuse-instance",
+//     "%PDF%",
+//     "-forward-search",
+//     "%TEX%",
+//     "%LINE%",
+//     "-inverse-search",
+//     "\"C:\\Users\\blues\\scoop\\apps\\vscode\\current\\Code.exe\" \"C:\\Users\\blues\\scoop\\apps\\vscode\\current\\resources\\app\\out\\cli.js\" --ms-enable-electron-run-as-node -r -g \"%f:%l\"",
+// ],
