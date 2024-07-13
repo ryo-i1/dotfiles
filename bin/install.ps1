@@ -21,6 +21,9 @@ function make_link {
     New-Item -ItemType SymbolicLink -Value $value -Path $path
 }
 
+# profile
+make_link "$dotfiles\profile.ps1" "$PROFILE.CurrentUserCurrentHost"
+
 # vscode
 $local_vscode = "$HOME\scoop\persist\vscode\data\user-data\User"
 make_link "$dotfiles\vscode\settings.json" "$local_vscode\settings.json"
