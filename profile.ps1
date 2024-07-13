@@ -3,6 +3,9 @@
 Set-PSReadLineOption -PredictionSource None
 
 # --- scoop below --- #
+scoop alias add upgrade 'scoop update; scoop update *; scoop cache rm *; scoop cleanup *' 'Update all apps.'
+scoop alias add reinstall 'scoop uninstall $args[0]; scoop install $args[0]' 'Reinstall an app.'
+
 # scoop-completion
 Import-Module "$($(Get-Item $(Get-Command scoop.ps1).Path).Directory.Parent.FullName)\modules\scoop-completion"
 
