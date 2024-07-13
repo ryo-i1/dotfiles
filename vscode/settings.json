@@ -17,9 +17,9 @@
     "update.showReleaseNotes": false,
     "update.mode": "none",
 
-    // json
     "files.associations": {
-        "*.json": "jsonc"
+        "*.json": "jsonc",
+        "vimrc": "Vimscript"
     },
 
     // git
