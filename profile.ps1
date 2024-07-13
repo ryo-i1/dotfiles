@@ -7,3 +7,7 @@ Import-Module "$($(Get-Item $(Get-Command scoop.ps1).Path).Directory.Parent.Full
 
 # oh-my-posh
 oh-my-posh init pwsh --config $HOME\scoop\apps\oh-my-posh\current\themes\stelbent-compact.minimal.omp.json | Invoke-Expression
+
+# posh-git
+Import-Module posh-git
+Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
