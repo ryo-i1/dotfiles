@@ -1,26 +1,34 @@
 
-$dotfiles = $HOME\dotfiles
-$backup = $dotfiles\backup
+$dotfiles = "$HOME\dotfiles"
+$backup = "$dotfiles\backup"
 
 function make_link {
     param (
         [string]$value,
         [string]$path
     )
+
+    # ファイルが存在する場合はバックアップを取る
     if (Test-Path $path) {
-        Move-Item -Path $path $Destination $backup
+        # シンボリックファイルの場合は関数を抜ける
+        if ((Get-Item $path).LinkType -eq "SymbolicLink") {
+            return
+        }
+        Move-Item -Path $path -Destination $backup
     }
-    New-Item -ItemType SymbolicLink -Value $val -Path $path
+
+    # シンボリックリンクを作成
+    New-Item -ItemType SymbolicLink -Value $value -Path $path
 }
 
 # vscode
-$local_vscode = $HOME\scoop\persist\vscode\data\user-data\User
-make_link $dotfiles\vscode\settings.json $local_vscode\settings.json
-make_link $dotfiles\vscode\snippets $local_vscode\snippets
+$local_vscode = "$HOME\scoop\persist\vscode\data\user-data\User"
+make_link "$dotfiles\vscode\settings.json" "$local_vscode\settings.json"
+make_link "$dotfiles\vscode\snippets" "$local_vscode\snippets"
 
 # vim
-make_link $dotfiles\vim\vimfiles\vimrc $HOME\vimfiles\vimrc
+make_link "$dotfiles\vim\vimfiles\vimrc" "$HOME\vimfiles\vimrc"
 
 #latex
-make_link $dotfiles\latex\.latexmkrc $HOME\.latexmkrc
+make_link "$dotfiles\latex\.latexmkrc" "$HOME\.latexmkrc"
 
