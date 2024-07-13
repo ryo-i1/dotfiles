@@ -27,8 +27,16 @@ make_link "$dotfiles\vscode\settings.json" "$local_vscode\settings.json"
 make_link "$dotfiles\vscode\snippets" "$local_vscode\snippets"
 
 # vim
-make_link "$dotfiles\vim\vimfiles\vimrc" "$HOME\vimfiles\vimrc"
+make_link "$dotfiles\vim\_vimrc" "$HOME\_vimrc"
+# Vundle
+$bundle = "$HOME\.vim\bundle"
+if (-not (Test-Path $bundle)) {
+    mkdir $bundle
+}
+$Vundle = "$bundle\Vundle.vim"
+if (-not (Test-Path $Vundle)) {
+    git clone https://github.com/VundleVim/Vundle.vim.git $Vundle
+}
 
 #latex
 make_link "$dotfiles\latex\.latexmkrc" "$HOME\.latexmkrc"
-

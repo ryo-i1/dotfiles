@@ -1,11 +1,9 @@
 " Vundle settings below
-" be iMproved, required
-set nocompatible
-" required
-filetype off
+set nocompatible  " be improved, required
+filetype off      " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/vimfiles/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " let Vundle manage Vundle, required
@@ -19,10 +17,9 @@ Plugin 'jacoborus/tender.vim'
 Plugin 'ryanoasis/powerline-extra-symbols'
 
 " All of your Plugins must be added before the folloing line
-" required
-call vundle#end()
-" required
-filetype plugin indent on
+
+call vundle#end()           " required
+filetype plugin indent on   " required
 " To ignore plugin indent changes, insted use:
 "filetype plugin on
 
@@ -34,6 +31,7 @@ filetype plugin indent on
 
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+
 
 set encoding=utf-8
 scriptencoding utf-8
@@ -235,4 +233,3 @@ endfunction
 "let g:airline_powerline_fonts = 1
 "let g:airline_theme = 'deus'
 "let g:airline_deus_bg = 'light'
-
