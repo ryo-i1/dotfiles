@@ -22,7 +22,7 @@ function make_link {
 }
 
 # profile
-make_link "$dotfiles\profile.ps1" "$PROFILE.CurrentUserCurrentHost"
+make_link "$dotfiles\profile.ps1" "$PROFILE"
 
 # vscode
 $local_vscode = "$HOME\scoop\persist\vscode\data\user-data\User"
