@@ -11,3 +11,6 @@ oh-my-posh init pwsh --config $HOME\scoop\apps\oh-my-posh\current\themes\stelben
 # posh-git
 Import-Module posh-git
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
+
+# terminal-icons
+Import-Module Terminal-Icons
