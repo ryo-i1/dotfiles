@@ -1,5 +1,6 @@
 
 $dotfiles = $HOME\dotfiles
+$backup = $dotfiles\backup
 
 function make_link {
     param (
