@@ -16,6 +16,11 @@
     "update.showReleaseNotes": false,
     "update.mode": "none",
 
+    // json
+    "files.associations": {
+        "*.json": "jsonc"
+    },
+
     // git
     "git.confirmSync": false,
     "github.copilot.editor.enableAutoCompletions": true,
@@ -24,7 +29,7 @@
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.acceptSuggestionOnEnter": "off",
-        "editor.tabSize": 4,
+        "editor.tabSize": 4
     },
     "flake8.args": [
         "--max-line-length=88",
@@ -42,14 +47,14 @@
     "[tex]": {
         "editor.suggest.snippetsPreventQuickSuggestions": false,
         "editor.tabSize": 2,
-        "editor.formatOnSave": true,
+        "editor.formatOnSave": true
     },
     "[latex]": {
         "editor.suggest.snippetsPreventQuickSuggestions": false,
-        "editor.tabSize": 2,
+        "editor.tabSize": 2
     },
     "[bibtex]": {
-        "editor.tabSize": 2,
+        "editor.tabSize": 2
     },
 
     "latex-workshop.latex.tools": [
@@ -115,7 +120,7 @@
                 "uplatex",
                 "dvipdfmx"
             ]
-        },
+        }
     ],
     "latex-workshop.latex.autoBuild.run": "onSave",
     "workbench.editorAssociations": {
@@ -156,7 +161,7 @@
     "latex-workshop.latexindent.args": [
         // "-c",
         "%DIR%/",
-        "%TMPFILE%",
+        "%TMPFILE%"
         // "-y=defaultIndent: '%INDENT%'"
     ]
 }
