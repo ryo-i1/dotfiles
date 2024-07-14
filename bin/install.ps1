@@ -43,3 +43,8 @@ if (-not (Test-Path $Vundle)) {
 
 #latex
 make_link "$dotfiles\latex\.latexmkrc" "$HOME\.latexmkrc"
+
+# scoop
+scoop alias add upgrade 'scoop update; scoop update *; scoop cache rm *; scoop cleanup *' 'Update all apps.'
+scoop alias add reinstall 'scoop uninstall $args[0]; scoop install $args[0]' 'Reinstall an app.'
+
