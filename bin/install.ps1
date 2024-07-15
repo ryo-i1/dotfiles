@@ -1,5 +1,9 @@
 
-$dotfiles = "$HOME\dotfiles"
+$dotfiles = $MyInvocation.MyCommand.Path
+while ((Split-Path $dotfiles -Leaf) -ne "dotfiles") {
+    $dotfiles = Split-Path $dotfiles -Parent
+}
+
 $backup = "$dotfiles\backup"
 
 function make_link {
@@ -47,4 +51,3 @@ make_link "$dotfiles\latex\.latexmkrc" "$HOME\.latexmkrc"
 # scoop
 scoop alias add upgrade 'scoop update; scoop update *; scoop cache rm *; scoop cleanup *' 'Update all apps.'
 scoop alias add reinstall 'scoop uninstall $args[0]; scoop install $args[0]' 'Reinstall an app.'
-
