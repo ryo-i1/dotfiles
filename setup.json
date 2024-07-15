@@ -1,0 +1,23 @@
+{
+    "scoop": {
+        "apps": [
+            "7zip",
+            "aria2",
+            "discord",
+            "ffmpeg",
+            "firefox",
+            "git",
+            "googlechrome",
+            "latex",
+            "latexindent",
+            "notion",
+            "perl",
+            "slack",
+            "sudo",
+            "vim",
+            "vivaldi",
+            "vscode"
+        ]
+    }
+}
+

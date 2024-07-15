@@ -4,6 +4,24 @@ while ((Split-Path $dotfiles -Leaf) -ne "dotfiles") {
     $dotfiles = Split-Path $dotfiles -Parent
 }
 
+$jsonfile = "$dotfiles\setup.json"
+$data = Get-Content $jsonfile | ConvertFrom-Json
+
+# scoop install
+$sp_list = scoop list
+$sp_installed = $sp_list -split '\r?\n' | ForEach-Object {
+    if ($_ -match 'Name=(\S+);') {
+        $matches[1]
+    }
+}
+
+ForEach ($app in $data.scoop.apps) {
+    if ($sp_installed -notcontains $app) {
+        scoop install $app
+    }
+}
+
+
 $backup = "$dotfiles\backup"
 
 function make_link {
