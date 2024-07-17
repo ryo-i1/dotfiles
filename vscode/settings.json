@@ -21,6 +21,7 @@
         "*.json": "jsonc",
         "vimrc": "Vimscript"
     },
+    "files.insertFinalNewline": true,
 
     // git
     "git.confirmSync": false,
