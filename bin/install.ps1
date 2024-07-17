@@ -8,27 +8,24 @@ $jsonfile = "$dotfiles\setup.json"
 $data = Get-Content $jsonfile | ConvertFrom-Json
 
 # scoop install
-$sp_list = scoop list
-$sp_installed_apps = @()
-$sp_installed_buckets = @()
-$sp_list -split '\r?\n' | ForEach-Object {
-    if ($_ -match 'Name=(\S+);') {
-        $sp_installed_apps += $matches[1]
-    } elseif ($_ -notcontains $sp_installed_buckets -and $_ -match 'Source=(\S+);') {
-        $sp_installed_buckets += $matches[1]
-    }
-}
+$sp_export = scoop export
+$data_installed = $sp_export | ConvertFrom-Json
+
+$installed_buckets = $data_installed.buckets | ForEach-Object { $_.Name }
+$installed_apps = $data_installed.apps | ForEach-Object { $_.Name }
 
 ## buckets
 ForEach ($bucket in $data.scoop.buckets) {
-    if ($sp_installed_buckets -notcontains $bucket) {
+    if ($installed_buckets -notcontains $bucket) {
+        Write-Output "Install bucket: $bucket"
         scoop bucket add $bucket
     }
 }
 
 ## apps
 ForEach ($app in $data.scoop.apps) {
-    if ($sp_installed_apps -notcontains $app) {
+    if ($installed_apps -notcontains $app) {
+        Write-Output "Install app: $app"
         scoop install $app
     }
 }
@@ -75,9 +72,23 @@ if (-not (Test-Path $Vundle)) {
     git clone https://github.com/VundleVim/Vundle.vim.git $Vundle
 }
 
-#latex
+# latex
 make_link "$dotfiles\latex\.latexmkrc" "$HOME\.latexmkrc"
 
-# scoop
-scoop alias add upgrade 'scoop update; scoop update *; scoop cache rm *; scoop cleanup *' 'Update all apps.'
-scoop alias add reinstall 'scoop uninstall $args[0]; scoop install $args[0]' 'Reinstall an app.'
+
+# scoop alias
+$sp_help = scoop help
+$sp_cmd = $sp_help -split '\r?\n' | ForEach-Object {
+    if ($_ -match 'Name=(\S+);') {
+        $matches[1]
+    }
+}
+
+## upgrade
+if ($sp_cmd -notcontains 'upgrade') {
+    scoop alias add upgrade 'scoop update; scoop update *; scoop cache rm *; scoop cleanup *' 'Update all apps.'
+}
+## reinstall
+if ($sp_cmd -notcontains 'reinstall') {
+    scoop alias add reinstall 'scoop uninstall $args[0]; scoop install $args[0]' 'Reinstall an app.'
+}
