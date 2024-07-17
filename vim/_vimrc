@@ -15,6 +15,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'itchyny/lightline.vim'
 Plugin 'jacoborus/tender.vim'
 Plugin 'ryanoasis/powerline-extra-symbols'
+Plugin 'scrooloose/nerdtree'
 
 " All of your Plugins must be added before the folloing line
 
@@ -151,6 +152,8 @@ colorscheme tender
 " "inoremap " ""<LEFT>
 " "inoremap ' ''<LEFT>
 
+" nerd tree
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
 " lightline settings
 let g:lightline = {
