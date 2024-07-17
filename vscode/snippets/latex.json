@@ -77,7 +77,7 @@
 			"\\\\mathtoolsset{showonlyrefs}",
 			"\\\\usepackage{booktabs, multirow}",
 			"\\\\usepackage{listings, jlisting, xcolor}",
-			"\\\\usepckage{url}",
+			"\\\\usepackage{url}",
 			"",
 			"\\\\lstset{",
 			"    language = Python,",
