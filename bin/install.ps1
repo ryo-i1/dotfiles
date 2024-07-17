@@ -9,14 +9,26 @@ $data = Get-Content $jsonfile | ConvertFrom-Json
 
 # scoop install
 $sp_list = scoop list
-$sp_installed = $sp_list -split '\r?\n' | ForEach-Object {
+$sp_installed_apps = @()
+$sp_installed_buckets = @()
+$sp_list -split '\r?\n' | ForEach-Object {
     if ($_ -match 'Name=(\S+);') {
-        $matches[1]
+        $sp_installed_apps += $matches[1]
+    } elseif ($_ -notcontains $sp_installed_buckets -and $_ -match 'Source=(\S+);') {
+        $sp_installed_buckets += $matches[1]
     }
 }
 
+## buckets
+ForEach ($bucket in $data.scoop.buckets) {
+    if ($sp_installed_buckets -notcontains $bucket) {
+        scoop bucket add $bucket
+    }
+}
+
+## apps
 ForEach ($app in $data.scoop.apps) {
-    if ($sp_installed -notcontains $app) {
+    if ($sp_installed_apps -notcontains $app) {
         scoop install $app
     }
 }

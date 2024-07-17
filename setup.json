@@ -1,5 +1,10 @@
 {
     "scoop": {
+        "buckets": [
+            "extras",
+            "nerd-fonts",
+            "nonportable"
+        ],
         "apps": [
             "7zip",
             "aria2",
@@ -16,8 +21,11 @@
             "sudo",
             "vim",
             "vivaldi",
-            "vscode"
+            "vscode",
+            "posh-git",
+            "scoop-completion",
+            "Hack-NF",
+            "google-japanese-input-np"
         ]
     }
 }
-
