@@ -2,8 +2,7 @@
     "scoop": {
         "buckets": [
             "extras",
-            "nerd-fonts",
-            "nonportable"
+            "nerd-fonts"
         ],
         "apps": [
             "7zip",
@@ -26,8 +25,7 @@
             "oh-my-posh",
             "terminal-icons",
             "scoop-completion",
-            "Hack-NF",
-            "google-japanese-input-np"
+            "Hack-NF"
         ]
     }
 }
