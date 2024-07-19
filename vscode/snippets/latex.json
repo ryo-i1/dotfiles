@@ -12,6 +12,7 @@
 			"\\\\mathtoolsset{showonlyrefs}",
 			"\\\\usepackage{booktabs, multirow}",
 			"\\\\usepackage{listings, jlisting, xcolor}",
+            "\\\\usepackage{enumitem}",
 			"",
 			"\\\\lstset{",
 			"    language = Python,",
