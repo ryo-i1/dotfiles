@@ -22,6 +22,8 @@
             "oh-my-posh",
             "terminal-icons",
             "scoop-completion",
+            "imagemagick",
+            "ghostscript",  // required by imagemagick
             "Hack-NF"
         ]
     }
