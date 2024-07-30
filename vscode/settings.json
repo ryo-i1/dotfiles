@@ -163,8 +163,8 @@
 
     // latexindent
     "latex-workshop.latexindent.path": "C:\\Users\\blues\\scoop\\apps\\latexindent\\current\\bin\\windows\\latexindent.exe",
-    "latex-workshop.latexindent.args": [
-        "%DIR%/",
-        "%TMPFILE%"
-    ]
+    "terminal.integrated.env.windows": {
+        "LC_ALL": "C.UTF-8",
+        "LANG": "C.UTF-8"
+    }
 }
