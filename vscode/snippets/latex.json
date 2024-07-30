@@ -13,6 +13,7 @@
 			"\\\\usepackage{booktabs, multirow}",
 			"\\\\usepackage{listings, jlisting, xcolor}",
             "\\\\usepackage{enumitem}",
+            "\\\\usepackage{siunitx}",
 			"",
 			"\\\\lstset{",
 			"    language = Python,",
@@ -30,7 +31,7 @@
 			"    stepnumber = 1,",
 			"    numberstyle = \\\\tiny,",
 			"    tabsize = 4,",
-			"    captionpos = t",
+			"    captionpos = t,",
 			"    showstringspaces = false,",
 			"}",
 			"",
@@ -79,6 +80,7 @@
 			"\\\\usepackage{booktabs, multirow}",
 			"\\\\usepackage{listings, jlisting, xcolor}",
 			"\\\\usepackage{url}",
+			"\\\\usepackage{enumitem}",
 			"",
 			"\\\\lstset{",
 			"    language = Python,",
@@ -157,10 +159,17 @@
 	"Itemize": {
 		"prefix": "\\_itemize",
 		"body": [
-			"\\\\begin{itemize}",
-			"    \\\\setlength{\\\\itemsep}{0pt} \\\\setlength{\\\\parskip}{0pt}",
+			"\\\\begin{itemize}[nosep]",
 			"    \\\\item $1",
 			"\\\\end{itemize}"
+		]
+	},
+	"Enumerete": {
+		"prefix": "\\_enumerate",
+		"body": [
+			"\\\\begin{enumerate}[nosep]",
+			"    \\\\item $1",
+			"\\\\end{enumerate}"
 		]
 	},
 	"Table": {
