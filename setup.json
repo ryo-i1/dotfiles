@@ -30,7 +30,8 @@
             "googlechrome",
             "notion",
             "vscode",
-            "firefox"
+            "firefox",
+            "nonportablel/google-japanese-input-np"
         ]
     }
 }
