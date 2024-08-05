@@ -9,15 +9,12 @@
             "aria2",
             "discord",
             "ffmpeg",
-            "firefox",
             "git",
             "latex",
             "latexindent",
             "perl",
-            "slack",
             "sudo",
             "vim",
-            "vscode",
             "posh-git",
             "oh-my-posh",
             "terminal-icons",
@@ -25,6 +22,15 @@
             "imagemagick",
             "ghostscript",  // required by imagemagick
             "Hack-NF"
+        ],
+        "unmanaged": [
+            "discord",
+            "slack",
+            "vivaldi",
+            "googlechrome",
+            "notion",
+            "vscode",
+            "firefox"
         ]
     }
 }
