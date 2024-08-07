@@ -59,6 +59,7 @@ make_link "$dotfiles\profile.ps1" "$PROFILE"
 $local_vscode = "$HOME\scoop\persist\vscode\data\user-data\User"
 make_link "$dotfiles\vscode\settings.json" "$local_vscode\settings.json"
 make_link "$dotfiles\vscode\snippets" "$local_vscode\snippets"
+& "$dotfiles\vscode\sync.ps1"
 
 # vim
 make_link "$dotfiles\vim\_vimrc" "$HOME\_vimrc"
