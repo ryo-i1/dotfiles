@@ -134,6 +134,7 @@
         "*.pdf": "latex-workshop-pdf-hook"
     },
     "latex-workshop.view.pdf.zoom": "page-fit",
+    "latex-workshop.view.pdf.color.dark.backgroundColor": "",
     "latex-workshop.intellisense.package.enabled": true,
     "latex-workshop.latex.clean.fileTypes": [
         "%DOCFILE%.aux",
