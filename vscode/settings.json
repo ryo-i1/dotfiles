@@ -12,7 +12,7 @@
     "security.allowedUNCHosts": [
         "wsl.localhost"
     ],
-    "workbench.colorTheme": "Default Dark+",
+    "workbench.colorTheme": "One Dark Pro",
     "workbench.startupEditor": "none",
     "update.showReleaseNotes": false,
     "update.mode": "none",
@@ -164,7 +164,8 @@
     "latex-workshop.latex.autoClean.run": "onSucceeded",
 
     // latexindent
-    "latex-workshop.latexindent.path": "C:\\Users\\blues\\scoop\\apps\\latexindent\\current\\bin\\windows\\latexindent.exe",
+    "latex-workshop.formatting.latex": "latexindent",
+    "latex-workshop.formatting.latexindent.path": "latexindent",
     "terminal.integrated.env.windows": {
         "LC_ALL": "C.UTF-8",
         "LANG": "C.UTF-8"
