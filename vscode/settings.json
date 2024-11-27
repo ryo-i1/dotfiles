@@ -170,5 +170,24 @@
     "terminal.integrated.env.windows": {
         "LC_ALL": "C.UTF-8",
         "LANG": "C.UTF-8"
-    }
+    },
+
+    // vscode-vim
+    "vim.useSystemClipboard": true,  // sync clipboard
+    "vim.hlsearch": true,
+    "vim.leader": "<space>",
+    "vim.normalModeKeyBindingsNonRecursive": [
+        { "before": ["<Leader>", "h"], "after": ["<C-w>", "h"] },  // window move
+        { "before": ["<Leader>", "j"], "after": ["<C-w>", "j"] },
+        { "before": ["<Leader>", "k"], "after": ["<C-w>", "k"] },
+        { "before": ["<Leader>", "l"], "after": ["<C-w>", "l"] },
+        { "before": ["<Leader>", "o"], "after": ["o", "<ESC>"] },  // blank line
+        { "before": ["<Leader>", "O"], "after": ["O", "<ESC>"] },
+        { "before": [">"], "commands": ["editor.action.indentLines"] },
+        { "before": ["<"], "commands": ["editor.action.outdentLines"] }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        { "before": ["<"], "commands": ["editor.action.outdentLines"] },
+        { "before": [">"], "commands": ["editor.action.indentLines"] }
+    ]
 }
