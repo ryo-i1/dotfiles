@@ -49,6 +49,7 @@
     },
     "notebook.lineNumbers": "on",
     "notebook.formatOnSave.enabled": false,
+    "jupyter.askForKernelRestart": false,
 
     // latex
     "[tex]": {
