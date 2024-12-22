@@ -1,19 +1,21 @@
 {
 	"Template": {
-		"prefix": "\\_tmp",
+		"prefix": "\\_temp",
 		"body": [
 			"\\\\documentclass[12pt, dvipdfmx]{jsarticle}",
 			"\\\\usepackage[deluxe]{otf}",
 			"\\\\usepackage[margin=20truemm]{geometry}",
+			"\\\\usepackage{titling}",
 			"\\\\usepackage{graphicx}",
 			"\\\\usepackage{amsmath, amssymb}",
 			"\\\\usepackage{bm}",
+            "\\\\usepackage{siunitx}",
 			"\\\\usepackage{mathtools}",
 			"\\\\mathtoolsset{showonlyrefs}",
 			"\\\\usepackage{booktabs, multirow}",
 			"\\\\usepackage{listings, jlisting, xcolor}",
             "\\\\usepackage{enumitem}",
-            "\\\\usepackage{siunitx}",
+            "\\\\usepackage{url}",
 			"",
 			"\\\\lstset{",
 			"    language = Python,",
@@ -47,16 +49,20 @@
 			"",
 			"\\\\renewcommand{\\\\lstlistingname}{Code}",
 			"",
-			"\\\\title{$1}",
-			"\\\\author{学籍番号: 4622009 \\\\\\\\ 氏名: 石塚亮羽}",
-			"\\\\date{\\\\today}",
+			"\\\\setlength{\\\\droptitle}{-5em}",
+			"",
+			"\\\\title{\\\\Large }$1",
+			"\\\\author{\\\\normalsize 学籍番号: 4622009 \\\\\\\\ \\\\normalsize 氏名: 石塚亮羽}",
+			"\\\\date{}",
 			"",
 			"\\\\begin{document}",
 			"\\\\maketitle",
+			"\\\\vspace{-3em}",
 			"",
+			"% 本文ここから",
 			"\\\\vspace{-2em}",
 			"\\\\toi{1}",
-			"$2",
+			"",
 			"",
 			"\\\\subtoi{1-1}",
 			"",
@@ -159,7 +165,7 @@
 	"Itemize": {
 		"prefix": "\\_itemize",
 		"body": [
-			"\\\\begin{itemize}[nosep]",
+			"\\\\begin{itemize}[noitemsep]",
 			"    \\\\item $1",
 			"\\\\end{itemize}"
 		]
@@ -167,7 +173,7 @@
 	"Enumerete": {
 		"prefix": "\\_enumerate",
 		"body": [
-			"\\\\begin{enumerate}[nosep]",
+			"\\\\begin{enumerate}[noitemsep]",
 			"    \\\\item $1",
 			"\\\\end{enumerate}"
 		]
