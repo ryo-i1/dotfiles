@@ -1,12 +1,13 @@
 # hide prediction
 Set-PSReadLineOption -PredictionSource None
-
+# diaplay all suggestions
+Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 
 #
 # alias
 #
-Set-Alias touch New-Item
-Remove-Item alias:rm -Force
+if (-not (Test-Path alias:touch)) { Set-Alias touch New-Item }
+if (Test-Path alias:rm) { Remove-Item alias:rm -Force }
 function rm() { Remove-Item -Recurse -Force $args }
 
 
@@ -20,7 +21,21 @@ Import-Module "$($(Get-Item $(Get-Command scoop.ps1).Path).Directory.Parent.Full
 # posh-git
 #
 Import-Module posh-git
-Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
+
+$time = Get-Date -f 'HH:mm:ss'
+
+# display home dir as ~ in prompt
+$GitPromptSettings.DefaultPromptAbbreviateHomeDirectory = $true
+# order : [git status] then [current path]
+$GitPromptSettings.DefaultPromptWriteStatusFirst = $false
+
+# prefix
+$GitPromptSettings.DefaultPromptPrefix.Text = "`n"
+# before suffix
+$GitPromptSettings.DefaultPromptBeforeSuffix.Text = " | ${time}`n"
+$GitPromptSettings.DefaultPromptBeforeSuffix.ForegroundColor = [ConsoleColor]::DarkCyan
+# suffix
+$GitPromptSettings.DefaultPromptSuffix = "$('$' * ($nestedPromptLevel + 1)) "
 
 
 #
