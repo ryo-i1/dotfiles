@@ -4,8 +4,11 @@ while ((Split-Path $vscode_dir -Leaf) -ne "vscode") {
 }
 
 # pull extensions
+$vscode_installed_ext = code --list-extensions
 cat "${vscode_dir}/extensions" | ForEach-Object {
-    code --install-extension $_
+    if ($vscode_installed_ext -notcontains $_) {
+        code --install-extension $_
+    }
 }
 
 # push extensions
