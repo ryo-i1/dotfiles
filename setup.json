@@ -7,30 +7,30 @@
         "apps": [
             "7zip",
             "aria2",
-            "ffmpeg",
+            "ghostscript",  // required by imagemagick
             "git",
+            "imagemagick",
             "latex",
             "latexindent",
-            "perl",
-            "sudo",
-            "vim",
-            "posh-git",
-            "oh-my-posh",
-            "terminal-icons",
-            "scoop-completion",
-            "imagemagick",
-            "ghostscript",  // required by imagemagick
-            "Hack-NF",
             "notion",
-            "vscode"
+            "perl",
+            "posh-git",
+            "scoop-completion",
+            "sudo",
+            "terminal-icons",
+            "vim",
+            "vscode",
+            "Hack-NF"
         ],
         "unmanaged": [
             "discord",
-            "slack",
-            "vivaldi",
-            "googlechrome",
+            "ffmpeg",
             "firefox",
-            "nonportablel/google-japanese-input-np"
+            "googlechrome",
+            "nonportablel/google-japanese-input-np",
+            "oh-my-posh",
+            "slack",
+            "vivaldi"
         ]
     }
 }
