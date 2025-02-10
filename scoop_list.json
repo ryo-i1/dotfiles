@@ -12,6 +12,7 @@
             "imagemagick",
             "latex",
             "latexindent",
+            "oh-my-posh",
             "notion",
             "perl",
             "posh-git",
@@ -28,7 +29,6 @@
             "firefox",
             "googlechrome",
             "nonportablel/google-japanese-input-np",
-            "oh-my-posh",
             "slack",
             "vivaldi"
         ]

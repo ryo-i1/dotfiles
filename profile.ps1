@@ -18,24 +18,30 @@ Import-Module "$($(Get-Item $(Get-Command scoop.ps1).Path).Directory.Parent.Full
 
 
 #
+# oh-my-posh
+#
+oh-my-posh init pwsh --config $HOME\scoop\apps\oh-my-posh\current\themes\stelbent-compact.minimal.omp.json | Invoke-Expression
+
+
+#
 # posh-git
 #
 Import-Module posh-git
 
-$time = Get-Date -f 'HH:mm:ss'
+# $time = Get-Date -f 'HH:mm:ss'
 
-# display home dir as ~ in prompt
-$GitPromptSettings.DefaultPromptAbbreviateHomeDirectory = $true
-# order : [git status] then [current path]
-$GitPromptSettings.DefaultPromptWriteStatusFirst = $false
+# # display home dir as ~ in prompt
+# $GitPromptSettings.DefaultPromptAbbreviateHomeDirectory = $true
+# # order : [git status] then [current path]
+# $GitPromptSettings.DefaultPromptWriteStatusFirst = $false
 
-# prefix
-$GitPromptSettings.DefaultPromptPrefix.Text = "`n"
-# before suffix
-$GitPromptSettings.DefaultPromptBeforeSuffix.Text = " | ${time}`n"
-$GitPromptSettings.DefaultPromptBeforeSuffix.ForegroundColor = [ConsoleColor]::DarkCyan
-# suffix
-$GitPromptSettings.DefaultPromptSuffix = "$('$' * ($nestedPromptLevel + 1)) "
+# # prefix
+# $GitPromptSettings.DefaultPromptPrefix.Text = "`n"
+# # before suffix
+# $GitPromptSettings.DefaultPromptBeforeSuffix.Text = " | ${time}`n"
+# $GitPromptSettings.DefaultPromptBeforeSuffix.ForegroundColor = [ConsoleColor]::DarkCyan
+# # suffix
+# $GitPromptSettings.DefaultPromptSuffix = "$('$' * ($nestedPromptLevel + 1)) "
 
 
 #
