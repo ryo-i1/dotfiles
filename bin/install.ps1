@@ -16,6 +16,8 @@ function make_link {
         if ((Get-Item $path).LinkType -eq "SymbolicLink") {
             return
         }
+
+        Write-Host "Make backup: $path"
         Move-Item -Path $path -Destination $backup
     }
 
