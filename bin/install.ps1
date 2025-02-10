@@ -88,13 +88,12 @@ make_link "${dotfiles}\vscode\snippets" "${local_vscode}\snippets"
 #
 # vim
 #
-make_link "${dotfiles}\vim\vimrc" "$HOME\vimfiles\vimrc"
+$bundle = "$HOME\vimfiles\bundle"
+if (-not (Test-Path $bundle)) { mkdir $bundle }
+
+make_link "${dotfiles}\vim\vimrc" "${vimfiles}\vimrc"
 
 # Vundle
-$bundle = "$HOME\vimfiles\bundle"
-if (-not (Test-Path $bundle)) {
-    mkdir $bundle
-}
 $Vundle = "${bundle}\Vundle.vim"
 if (-not (Test-Path $Vundle)) {
     git clone "https://github.com/VundleVim/Vundle.vim.git" $Vundle
