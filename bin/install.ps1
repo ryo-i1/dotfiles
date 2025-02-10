@@ -58,7 +58,7 @@ ForEach ($app in $data.scoop.apps) {
 # scoop alias
 $sp_help = scoop help
 $sp_cmd = $sp_help -split '\r?\n' | ForEach-Object {
-    if ($_ -match 'Name=(\S+);') {
+    if ($_ -match 'Command=(\S+);') {
         $matches[1]
     }
 }
