@@ -115,8 +115,27 @@ set clipboard=unnamed,autoselect
 " 行をまたいで移動
 set whichwrap=b,s,h,l,<,>,[,],~
 
-set mouse=
-"set mouse=a  " バッファスクロール
+" mouse event
+set mouse=a  " バッファスクロール
+" disable mouse scroll
+"nnoremap <ScrollWheelUp> <Nop>
+"nnoremap <S-ScrollWheelUp> <Nop>
+"nnoremap <C-ScrollWheelUp> <Nop>
+"nnoremap <ScrollWheelDown> <Nop>
+"nnoremap <S-ScrollWheelDown> <Nop>
+"nnoremap <C-ScrollWheelDown> <Nop>
+"inoremap <ScrollWheelUp> <Nop>
+"inoremap <S-ScrollWheelUp> <Nop>
+"inoremap <C-ScrollWheelUp> <Nop>
+"inoremap <ScrollWheelDown> <Nop>
+"inoremap <S-ScrollWheelDown> <Nop>
+"inoremap <C-ScrollWheelDown> <Nop>
+"xnoremap <ScrollWheelUp> <Nop>
+"xnoremap <S-ScrollWheelUp> <Nop>
+"xnoremap <C-ScrollWheelUp> <Nop>
+"xnoremap <ScrollWheelDown> <Nop>
+"xnoremap <S-ScrollWheelDown> <Nop>
+"xnoremap <C-ScrollWheelDown> <Nop>
 
 " cursor
 set cursorline
