@@ -1,122 +1,123 @@
-" Vundle settings below
-set nocompatible  " be improved, required
-filetype off      " required
+" 文字コード
+set encoding=utf-8
+" vim script の文字コード
+scriptencoding utf-8
+" ファイルの文字コード
+set fileencoding=utf-8
 
-" set the runtime path to include Vundle and initialize
+"
+" Vundle
+"
+set nocompatible
+filetype off
+
 set rtp+=~/vimfiles/bundle/Vundle.vim
 call vundle#begin('$HOME/vimfiles/bundle')
 
-" let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-
-"Plugin 'vim-airline/vim-airline'
-"Plugin 'vim-airline/vim-airline-themes'
-
+" Manage Plugins
 Plugin 'itchyny/lightline.vim'
 Plugin 'jacoborus/tender.vim'
 Plugin 'ryanoasis/powerline-extra-symbols'
 Plugin 'scrooloose/nerdtree'
 
-" All of your Plugins must be added before the folloing line
-
-call vundle#end()           " required
-filetype plugin indent on   " required
-" To ignore plugin indent changes, insted use:
-"filetype plugin on
-
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+call vundle#end()
+filetype plugin indent on
 
 
-set encoding=utf-8
-scriptencoding utf-8
-
-" 行番号 を表示 "
+"
+" display
+"
+" タイトルを表示
+set title
+" 行番号 を表示
 set number
-" wildmenu を表示 "
-set wildmenu
-" vimの範囲選択で文字がなくても右に進める "
-" 行末の1文字先までカーソルを移動できるように "
-set virtualedit=block,onemore
-" 全角文字用の設定 "
-set ambiwidth=double
-
-" 大文字・小文字を区別しないで検索 "
-set ignorecase
-" 小文字で検索したとき、大文字も含める "
-set smartcase
-" インクリメンタル検索 "
-set incsearch
-" 検索結果をハイライト "
-set hlsearch
-" 検索が末尾まで進んだら、先頭から再検索 "
-set wrapscan
-
-" エラーメッセージの表示時にビープを鳴らさない
-set noerrorbells
-" Windowsでパスの区切り文字をスラッシュで扱う
-set shellslash
-" 対応する括弧やブレースを表示
-set showmatch matchtime=1
-" インデント方法の変更
-set cinoptions+=:0
-" メッセージ表示欄を2行確保
-set cmdheight=2
-" ステータス行を常に表示
-set laststatus=2
-" ウィンドウの右下にまだ実行していない入力中のコマンドを表示
-set showcmd
-" 省略されずに表示
-set display=lastline
 " タブ文字を CTRL-I で表示し、行末に $ で表示する
 set list
 " 行末のスペースを可視化
 set listchars=tab:^\ ,trail:~
-" コマンドラインの履歴を10000件保存する
-set history=10000
-" 入力モードでTabキー押下時に半角スペースを挿入
+
+" syntax highlight
+syntax on
+" syntax highlight を dark mode に合わせる
+set background=dark
+" カーソル行をハイライト
+set cursorline
+" 対応する括弧やブレースを表示
+set showmatch matchtime=1
+
+" 1 行が長すぎる場合途中まで表示する
+set display=lastline
+" 折りたたみを無効化
+set nofoldenable
+" エラー時の画面フラッシュを無効化
+set visualbell t_vb=
+" エラーメッセージの表示時にビープを鳴らさない
+set noerrorbells
+
+
+"
+" status line
+"
+" ステータス行を常に表示
+set laststatus=2
+" メッセージ表示欄を 2 行確保
+set cmdheight=2
+" 補完候補を status line に表示
+set wildmenu
+" コマンドラインの補完, 候補の表示方法
+set wildmode=list:longest
+" ウィンドウの右下にまだ実行していない入力中のコマンドを表示
+set showcmd
+
+
+"
+" move
+"
+" 範囲選択で文字がなくても右に進める
+" 行末の 1 文字先までカーソルを移動できるように
+set virtualedit=block,onemore
+" 行をまたいで移動
+set whichwrap=b,s,h,l,<,>,[,],~
+
+
+"
+" 検索
+"
+" 大文字・小文字を区別しないで検索
+set ignorecase
+" 小文字で検索したとき、大文字も含める
+set smartcase
+" インクリメンタル検索
+set incsearch
+" 検索結果をハイライト
+set hlsearch
+" 検索が末尾まで進んだら、先頭から再検索
+set wrapscan
+
+
+"
+" インデント
+"
+" インデント方法の変更
+set cinoptions+=:0
+" 入力モードで Tab キー押下時に半角スペースを挿入
 set expandtab
 " インデント幅
 set shiftwidth=4
 " タブキー押下時に挿入される文字幅を指定
 set softtabstop=4
-" ファイル内にあるタブ文字の表示幅
+" タブ文字の表示幅
 set tabstop=4
-" ツールバーを非表示にする
-" set guioptions-=T
-" yでコピーした時にクリップボードに入る
-set guioptions+=a
-" メニューバーを非表示にする
-" set guioptions-=m
-" 右スクロールバーを非表示
-set guioptions-=R
-" 対応する括弧を強調表示
-set showmatch
 " 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
 set smartindent
-" スワップファイルを作成しない
-set noswapfile
-" バックアップファイルを作成しない
-set nobackup
-" 検索にマッチした行以外を折りたたむ(フォールドする)機能
-set nofoldenable
-" タイトルを表示
-set title
-" ヤンクでクリップボードにコピー
-set clipboard=unnamed,autoselect
-" すべての数を10進数として扱う
-" set nrformats=
-" 行をまたいで移動
-set whichwrap=b,s,h,l,<,>,[,],~
 
-" mouse event
+
+"
+" mouse
+"
 set mouse=a  " バッファスクロール
+
 " disable mouse scroll
 "nnoremap <ScrollWheelUp> <Nop>
 "nnoremap <S-ScrollWheelUp> <Nop>
@@ -137,44 +138,63 @@ set mouse=a  " バッファスクロール
 "xnoremap <S-ScrollWheelDown> <Nop>
 "xnoremap <C-ScrollWheelDown> <Nop>
 
-" cursor
-set cursorline
-" Escを2回押すとハイライトが消える
-nnoremap <Esc><Esc> :nohlsearch<CR><ESC>
 
-" ビープ音を可視化
-set visualbell
-" コマンドラインの補完
-set wildmode=list:longest
+"
+" key mappings
+"
+" Esc を 2 回押すとハイライトが消える
+nnoremap <Esc><Esc> :nohlsearch<CR><ESC>
 " 折り返し時に表示行単位での移動できるようにする
 nnoremap j gj
 nnoremap k gk
-" 文字コードを指定
-set fenc=utf-8
-" alias
+" `:R` で画面リロード
 :com R redraw!
-" syntax
-syntax on
-set background=dark
 
-" tender settings
+" 括弧補完
+"inoremap { {}<LEFT>
+"inoremap ( ()<LEFT>
+"inoremap [ []<LEFT>
+"inoremap " ""<LEFT>
+"inoremap ' ''<LEFT>
+
+
+"
+" others
+"
+" 全角文字用の設定
+set ambiwidth=double
+" すべての数を10進数として扱う
+set nrformats=
+" Windows でパスの区切り文字をスラッシュで扱う
+set shellslash
+" ヤンクでクリップボードにコピー
+set clipboard=unnamed,autoselect
+
+" コマンドラインの履歴保存件数
+set history=10000
+" スワップファイルを作成しない
+set noswapfile
+" バックアップファイルを作成しない
+set nobackup
+
+
+"
+" nerd tree
+"
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
+
+
+"
+" lightline
+"
+" tender theme
 if (has("termguicolors"))
     set termguicolors
 endif
 let g:cpp_class_scope_highlight = 1
 colorscheme tender
 
-" 括弧補完
-" "inoremap { {}<LEFT>
-" "inoremap ( ()<LEFT>
-" "inoremap [ []<LEFT>
-" "inoremap " ""<LEFT>
-" "inoremap ' ''<LEFT>
-
-" nerd tree
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
-
-" lightline settings
+" lightline
 let g:lightline = {
       \ 'colorscheme': 'tender',
       \ 'mode_map': {'c': 'NORMAL'},
@@ -235,23 +255,3 @@ endfunction
 function! LightlineMode()
   return winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
-
-" airline settings
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#buffer_idx_mode = 1
-"let g:airline#extensions#tabline#buffer_idx_format = {
-"      \ '0': '0 ',
-"      \ '1': '1 ',
-"      \ '2': '2 ',
-"      \ '3': '3 ',
-"      \ '4': '4 ',
-"      \ '5': '5 ',
-"      \ '6': '6 ',
-"      \ '7': '7 ',
-"      \ '8': '8 ',
-"      \ '9': '9 '
-"      \}
-"let g:airline#extensions#branch#enabled = 0
-"let g:airline_powerline_fonts = 1
-"let g:airline_theme = 'deus'
-"let g:airline_deus_bg = 'light'
