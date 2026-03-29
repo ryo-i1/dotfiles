@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# zsh/uninstall.sh
+
+##################################################
+# Paths
+##################################################
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd "${script_dir}/../.." && pwd)"
+
+# load common library
+source "${repo_root}/lib/common.sh"
+
+# source (dotfiles)
+src_dotzsh="${script_dir}/dotzsh"
+src_rcd="${src_dotzsh}/rc.d"
+
+# destination
+dst_home="${HOME}"
+dst_zshrc="${dst_home}/.zshrc"
+
+dst_zsh_dir="${dst_home}/.zsh"
+dst_rcd="${dst_zsh_dir}/rc.d"
+
+
+##################################################
+# Uninstall
+##################################################
+
+uninstall_zshrc() {
+    remove_if_symlink "${dst_zshrc}"
+}
+
+uninstall_rcd() {
+    if [[ ! -d "${dst_rcd}" ]]; then
+        warn "skip: ${dst_rcd} not found"
+        return
+    fi
+
+    if [[ ! -d "${src_rcd}" ]]; then
+        warn "skip: ${src_rcd} not found"
+        return
+    fi
+
+    for src_file in "${src_rcd}"/*.zsh; do
+        [[ -e "${src_file}" ]] || continue
+
+        filename="$(basename "${src_file}")"
+        dst_file="${dst_rcd}/${filename}"
+
+        if [[ -L "${dst_file}" ]]; then
+            linked_src="$(readlink "${dst_file}")"
+            if [[ "${linked_src}" == "${src_file}" ]]; then
+                log "remove symlink: ${dst_file}"
+                rm "${dst_file}"
+            else
+                warn "skip (linked to different source): ${dst_file} -> ${linked_src}"
+            fi
+        elif [[ -e "${dst_file}" ]]; then
+            warn "skip (not symlink): ${dst_file}"
+        else
+            warn "skip (not found): ${dst_file}"
+        fi
+    done
+}
+
+
+##################################################
+# Main
+##################################################
+
+main() {
+    log "Start zsh uninstall"
+
+    uninstall_zshrc
+    uninstall_rcd
+
+    log "Done"
+}
+
+main "$@"

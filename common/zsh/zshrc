@@ -1,0 +1,13 @@
+# zshrc
+
+emulate -L zsh
+
+DOTZSH_DIR="${HOME}/.zsh"
+ZSH_RC_DIR="${DOTZSH_DIR}/rc.d"
+ZSH_LOCALRC_DIR="${DOTZSH_DIR}/rc.local.d"
+
+for dir in "${ZSH_RC_DIR}" "${ZSH_LOCALRC_DIR}"; do
+  for rcfile in "${dir}"/*.zsh(N); do
+    source "${rcfile}"
+  done
+done
