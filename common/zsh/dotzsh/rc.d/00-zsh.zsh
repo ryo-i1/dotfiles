@@ -102,7 +102,7 @@ autoload -U colors
 colors
 
 # 通常プロンプト
-PROMPT="%{${fg[green]}%}[%n@%m]%{${reset_color}%} %~/ %# "
+PROMPT="%{${fg[green]}%}[%n@%m]%{${reset_color}%} %~ %# "
 # 複数行入力時
 PROMPT2='[%m]> '
 
