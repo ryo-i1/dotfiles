@@ -20,7 +20,7 @@ call vundle#begin('$HOME/.vim/bundle')
 Plugin 'VundleVim/Vundle.vim'
 
 " Plugins
-Plugin 'jacoborus/tender'      " color theme
+Plugin 'cocopon/iceberg.vim'   " iceberg
 Plugin 'ojroques/vim-oscyank'  " OSC52 経由でクリップボード共有
 Plugin 'sheerun/vim-polyglot'  " syntax / filetype support を拡張
 
@@ -239,11 +239,11 @@ endfunction
 
 
 "==================================================
-" Plugin: tender
+" Plugin: iceberg
 "==================================================
 
 try
-    colorscheme tender
+    colorscheme iceberg
 catch
     colorscheme default
 endtry
