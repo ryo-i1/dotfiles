@@ -99,7 +99,7 @@ uninstall_dotvim_dir_symlinks() {
         return
     fi
 
-    while IFS= read -r -d '' src_path; do
+    while IFS= read -r -d '' src_dir; do
         rel_path="${src_path#${src_dotvim}/}"
         dst_path="${dst_vimdir}/${rel_path}"
 
