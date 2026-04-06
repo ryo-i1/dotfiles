@@ -16,13 +16,11 @@ source "${repo_root}/lib/common.sh"
 # source (dotfiles)
 src_vimrc="${script_dir}/vimrc"
 src_dotvim="${script_dir}/dotvim"
-src_ftdetect="${src_dotvim}/ftdetect"
 
 # destination
 dst_home="${HOME}"
 dst_vimrc="${dst_home}/.vimrc"
 dst_vimdir="${dst_home}/.vim"
-dst_ftdetect="${dst_vimdir}/ftdetect"
 dst_bundle_dir="${dst_vimdir}/bundle"
 dst_vundle="${dst_bundle_dir}/Vundle.vim"
 
@@ -39,17 +37,31 @@ install_vimrc() {
 }
 
 install_dotvim() {
+    local src_path rel_path dst_path
+
+    if [[ ! -d "${src_dotvim}" ]]; then
+        warn "skip: ${src_dotvim} does not exist"
+        return
+    fi
     mkdir -p "${dst_vimdir}"
 
-    if [[ -d "${src_ftdetect}" ]]; then
-        link_if_needed "${src_ftdetect}" "${dst_ftdetect}" "${backup_root}" "${backup_suffix}"
-    else
-        warn "skip: ${src_ftdetect} does not exist"
-    fi
+    while IFS= read -r -d '' src_path; do
+        rel_path="${src_path#${src_dotvim}/}"
+        dst_path="${dst_vimdir}/${rel_path}"
+
+        if [[ -d "${src_path}" ]]; then
+            mkdir -p "${dst_path}"
+        else
+            mkdir -p "$(dirname "${dst_path}")"
+            link_if_needed "${src_path}" "${dst_path}" "${backup_root}" "${backup_suffix}"
+        fi
+    done < <(find "${src_dotvim}" -mindepth 1 \( -type d -o -type f -o -type l \) -print0 | sort -z)
 }
 
 install_vundle() {
     require_command git
+
+    mkdir -p "${dst_bundle_dir}"
 
     if [[ -d "${dst_vundle}" ]]; then
         log "skip: Vundle already installed"
@@ -72,7 +84,7 @@ main() {
     install_dotvim
     install_vundle
 
-    log "done"
+    log "Done"
 }
 
 main "$@"
