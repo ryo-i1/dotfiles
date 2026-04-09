@@ -14,10 +14,6 @@ repo_root="$(cd "${script_dir}/../.." && pwd)"
 source "${repo_root}/lib/common.sh"
 source "${repo_root}/lib/args.sh"
 
-# backup
-backup_suffix="$(date +%Y%m%d_%H%M%S)"
-backup_root="${HOME}/.dotfiles_backup/vim"
-
 
 ##################################################
 # Args
@@ -31,7 +27,7 @@ arg_prefix="$(args_get "--prefix" || true)"
 
 
 ##################################################
-# Paths (src / dst)
+# Paths
 ##################################################
 
 # source (dotfiles)
@@ -39,11 +35,15 @@ src_vimrc="${script_dir}/vimrc"
 src_dotvim="${script_dir}/dotvim"
 
 # destination
-dst_home="${HOME}"
+dst_home="${arg_prefix:-$HOME}"
 dst_vimrc="${dst_home}/.vimrc"
 dst_vimdir="${dst_home}/.vim"
 dst_bundle_dir="${dst_vimdir}/bundle"
 dst_vundle="${dst_bundle_dir}/Vundle.vim"
+
+# backup
+backup_suffix="$(date +%Y%m%d_%H%M%S)"
+backup_root="${HOME}/.dotfiles_backup/vim"
 
 
 ##################################################

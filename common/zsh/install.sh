@@ -14,10 +14,6 @@ repo_root="$(cd "${script_dir}/../.." && pwd)"
 source "${repo_root}/lib/common.sh"
 source "${repo_root}/lib/args.sh"
 
-# backup
-backup_suffix="$(date +%Y%m%d_%H%M%S)"
-backup_root="${HOME}/.dotfiles_backup/zsh"
-
 
 ##################################################
 # Args
@@ -31,7 +27,7 @@ arg_prefix="$(args_get "--prefix" || true)"
 
 
 ##################################################
-# Paths (src / dst)
+# Paths
 ##################################################
 
 # source (dotfiles)
@@ -46,6 +42,10 @@ dst_zshrc="${dst_home}/.zshrc"
 dst_zshdir="${dst_home}/.zsh"
 dst_rcd="${dst_zshdir}/rc.d"
 dst_local_rcd="${dst_zshdir}/rc.local.d"
+
+# backup
+backup_suffix="$(date +%Y%m%d_%H%M%S)"
+backup_root="${HOME}/.dotfiles_backup/zsh"
 
 
 ##################################################
