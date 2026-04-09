@@ -4,18 +4,35 @@ set -euo pipefail
 # vim/uninstall.sh
 
 ##################################################
-# Paths
+# Root Paths
 ##################################################
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "${script_dir}/../.." && pwd)"
 
-# load common library
+# load library
 source "${repo_root}/lib/common.sh"
+source "${repo_root}/lib/args.sh"
+
+
+##################################################
+# Args
+##################################################
+
+args_init
+args_register_value "--prefix"
+args_parse "$@"
+
+arg_prefix="$(args_get "--prefix" || true)"
+
+
+##################################################
+# Paths (src / dst)
+##################################################
 
 src_dotvim="${script_dir}/dotvim"
 
-dst_home="${HOME}"
+dst_home="${arg_prefix:-$HOME}"
 dst_vimrc="${dst_home}/.vimrc"
 dst_vimdir="${dst_home}/.vim"
 dst_vundle="${dst_vimdir}/bundle/Vundle.vim"
@@ -99,12 +116,12 @@ uninstall_dotvim_dir_symlinks() {
         return
     fi
 
-    while IFS= read -r -d '' src_dir; do
+    while IFS= read -r -d '' src_path; do
         rel_path="${src_path#${src_dotvim}/}"
         dst_path="${dst_vimdir}/${rel_path}"
 
         if [[ -L "${dst_path}" ]]; then
-            remove_symlink_if_target_matches "${dst_path}" "${src_dir}"
+            remove_symlink_if_target_matches "${dst_path}" "${src_path}"
             remove_empty_dirs_upward "$(dirname "${dst_path}")"
         else
             log "skip: not a symlink: ${dst_path}"
@@ -164,4 +181,4 @@ main() {
     log "Done"
 }
 
-main "$@"
+main

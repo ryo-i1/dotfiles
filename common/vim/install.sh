@@ -4,14 +4,35 @@ set -euo pipefail
 # vim/install.sh
 
 ##################################################
-# Paths
+# Root Paths
 ##################################################
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "${script_dir}/../.." && pwd)"
 
-# load common library
+# load library
 source "${repo_root}/lib/common.sh"
+source "${repo_root}/lib/args.sh"
+
+# backup
+backup_suffix="$(date +%Y%m%d_%H%M%S)"
+backup_root="${HOME}/.dotfiles_backup/vim"
+
+
+##################################################
+# Args
+##################################################
+
+args_init
+args_register_val "--prefix"
+args_parse "$@"
+
+arg_prefix="$(args_get "--prefix" || true)"
+
+
+##################################################
+# Paths (src / dst)
+##################################################
 
 # source (dotfiles)
 src_vimrc="${script_dir}/vimrc"
@@ -23,9 +44,6 @@ dst_vimrc="${dst_home}/.vimrc"
 dst_vimdir="${dst_home}/.vim"
 dst_bundle_dir="${dst_vimdir}/bundle"
 dst_vundle="${dst_bundle_dir}/Vundle.vim"
-
-backup_suffix="$(date +%Y%m%d_%H%M%S)"
-backup_root="${HOME}/.dotfiles_backup/vim"
 
 
 ##################################################
@@ -87,4 +105,4 @@ main() {
     log "Done"
 }
 
-main "$@"
+main
