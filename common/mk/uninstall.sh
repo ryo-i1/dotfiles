@@ -4,21 +4,41 @@ set -euo pipefail
 # mk/uninstall.sh
 
 ##################################################
-# Paths
+# Root Paths
 ##################################################
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(cd "${script_dir}" && pwd)"
+repo_root="$(cd "${script_dir}/../.." && pwd)"
 
+# load library
 source "${repo_root}/lib/common.sh"
 
-# source (repo)
-src_env="${repo_root}/env.zsh"
-src_tex_core="${repo_root}/tex/core.mk"
 
-# destination
+##################################################
+# Paths (src / dst)
+##################################################
+
 dst_env="${HOME}/.zsh/rc.d/mk.zsh"
 dst_tex_core="${HOME}/local/share/mk/tex/core.mk"
+
+
+##################################################
+# Utility
+##################################################
+
+remove_empty_dirs_upward() {
+    local dir="$1"
+    local stop_dir="$2"
+
+    while [[ "${dir}" != "${stop_dir}" && "${dir}" != "/" ]]; do
+        if [[ -d "${dir}" && ! -L "${dir}" ]] && rmdir "${dir}" 2>/dev/null; then
+            log "remove empty dir: ${dir}"
+            dir="$(dirname "${dir}")"
+        else
+            break
+        fi
+    done
+}
 
 
 ##################################################
@@ -28,10 +48,13 @@ dst_tex_core="${HOME}/local/share/mk/tex/core.mk"
 main() {
     log "Start uninstall mk"
 
-    uninstall_link "${src_env}" "${dst_env}"
-    uninstall_link "${src_tex_core}" "${dst_tex_core}"
+    remove_if_symlink "${dst_env}"
+    remove_if_symlink "${dst_tex_core}"
+
+    remove_empty_dirs_upward "$(dirname "${dst_tex_core}")" "${HOME}/local/share"
+    remove_empty_dirs_upward "$(dirname "${dst_env}")" "${HOME}"
 
     log "Done"
 }
 
-main "$@"
+main
