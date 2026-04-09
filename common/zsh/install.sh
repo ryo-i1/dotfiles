@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# common/zsh/install.sh
+# zsh/install.sh
 
 ##################################################
 # Root Paths
 ##################################################
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(cd "${script_dir}/../.." && pwd)"
+repo_root="$(cd "${script_dir}/../.." && pwd)"  # use for script path
+zsh_root="${repo_root}/common/zsh"              # use for link path
 
 # load library
 source "${repo_root}/lib/common.sh"
@@ -20,32 +21,48 @@ source "${repo_root}/lib/args.sh"
 ##################################################
 
 args_init
-args_register_value "--prefix"
+args_register_value "--home"
 args_parse "$@"
 
-arg_prefix="$(args_get "--prefix" || true)"
+arg_home="$(args_get "--home" || true)"
+logical_home="${arg_home:-$HOME}"
+
+
+##################################################
+# Paths rewrite
+##################################################
+
+rewrite_home_prefix() {
+    local path=$1
+    if [[ "${path}" == "${HOME}"* ]]; then
+        printf '%s\n' "${logical_home}${path#$HOME}"
+    else
+        printf '%s\n' "${path}"
+    fi
+}
 
 
 ##################################################
 # Paths
 ##################################################
 
+# root
+logical_zsh_root="$(rewrite_home_prefix "${zsh_root}")"
+
 # source (dotfiles)
-src_zshrc="${script_dir}/zshrc"
-src_dotzsh="${script_dir}/dotzsh"
+src_zshrc="${logical_zsh_root}/zshrc"
+src_dotzsh="${logical_zsh_root}/dotzsh"
 src_rcd="${src_dotzsh}/rc.d"
 
 # destination
-dst_home="${arg_prefix:-$HOME}"
-dst_zshrc="${dst_home}/.zshrc"
-
-dst_zshdir="${dst_home}/.zsh"
+dst_zshrc="${logical_home}/.zshrc"
+dst_zshdir="${logical_home}/.zsh"
 dst_rcd="${dst_zshdir}/rc.d"
 dst_local_rcd="${dst_zshdir}/rc.local.d"
 
 # backup
 backup_suffix="$(date +%Y%m%d_%H%M%S)"
-backup_root="${HOME}/.dotfiles_backup/zsh"
+backup_root="${logical_home}/.dotfiles_backup/zsh"
 
 
 ##################################################

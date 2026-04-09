@@ -12,18 +12,6 @@ repo_root="$(cd "${script_dir}/../.." && pwd)"
 
 # load library
 source "${repo_root}/lib/common.sh"
-source "${repo_root}/lib/args.sh"
-
-
-##################################################
-# Args
-##################################################
-
-args_init
-args_register_value "--prefix"
-args_parse "$@"
-
-arg_prefix="$(args_get "--prefix" || true)"
 
 
 ##################################################
@@ -32,9 +20,8 @@ arg_prefix="$(args_get "--prefix" || true)"
 
 src_dotvim="${script_dir}/dotvim"
 
-dst_home="${arg_prefix:-$HOME}"
-dst_vimrc="${dst_home}/.vimrc"
-dst_vimdir="${dst_home}/.vim"
+dst_vimrc="$HOME/.vimrc"
+dst_vimdir="$HOME/.vim"
 dst_vundle="${dst_vimdir}/bundle/Vundle.vim"
 
 

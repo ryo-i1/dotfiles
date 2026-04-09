@@ -12,18 +12,6 @@ repo_root="$(cd "${script_dir}/../.." && pwd)"
 
 # load library
 source "${repo_root}/lib/common.sh"
-source "${repo_root}/lib/args.sh"
-
-
-##################################################
-# Args
-##################################################
-
-args_init
-args_register_value "--prefix"
-args_parse "$@"
-
-args_prefix="$(args_get "--prefix" || true)"
 
 
 ##################################################
@@ -35,10 +23,8 @@ src_dotzsh="${script_dir}/dotzsh"
 src_rcd="${src_dotzsh}/rc.d"
 
 # destination
-dst_home="${args_prefix:-$HOME}"
-dst_zshrc="${dst_home}/.zshrc"
-
-dst_zshdir="${dst_home}/.zsh"
+dst_zshrc="$HOME/.zshrc"
+dst_zshdir="$HOME/.zsh"
 dst_rcd="${dst_zshdir}/rc.d"
 
 

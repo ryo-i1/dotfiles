@@ -8,7 +8,8 @@ set -euo pipefail
 ##################################################
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(cd "${script_dir}/../.." && pwd)"
+repo_root="$(cd "${script_dir}/../.." && pwd)"  # use for script path
+vim_root="${repo_root}/common/vim"              # use for link path
 
 # load library
 source "${repo_root}/lib/common.sh"
@@ -20,30 +21,47 @@ source "${repo_root}/lib/args.sh"
 ##################################################
 
 args_init
-args_register_value "--prefix"
+args_register_value "--home"
 args_parse "$@"
 
-arg_prefix="$(args_get "--prefix" || true)"
+arg_home="$(args_get "--home" || true)"
+logical_home="${arg_home:-$HOME}"
+
+
+##################################################
+# Paths rewrite
+##################################################
+
+rewrite_home_prefix() {
+    local path=$1
+    if [[ "${path}" == "${HOME}"* ]]; then
+        printf '%s\n' "${logical_home}${path#$HOME}"
+    else
+        printf '%s\n' "${path}"
+    fi
+}
 
 
 ##################################################
 # Paths
 ##################################################
 
+# root
+logical_vim_root="$(rewrite_home_prefix "${vim_root}")"
+
 # source (dotfiles)
-src_vimrc="${script_dir}/vimrc"
-src_dotvim="${script_dir}/dotvim"
+src_vimrc="${logical_vim_root}/vimrc"
+src_dotvim="${logical_vim_root}/dotvim"
 
 # destination
-dst_home="${arg_prefix:-$HOME}"
-dst_vimrc="${dst_home}/.vimrc"
-dst_vimdir="${dst_home}/.vim"
+dst_vimrc="${logical_home}/.vimrc"
+dst_vimdir="${logical_home}/.vim"
 dst_bundle_dir="${dst_vimdir}/bundle"
 dst_vundle="${dst_bundle_dir}/Vundle.vim"
 
 # backup
 backup_suffix="$(date +%Y%m%d_%H%M%S)"
-backup_root="${HOME}/.dotfiles_backup/vim"
+backup_root="${logical_home}/.dotfiles_backup/vim"
 
 
 ##################################################
