@@ -32,9 +32,9 @@ filetype plugin indent on
 " UI: basic appearance
 "==================================================
 
-set title       " ターミナルやウィンドウのタイトルを更新
-set number      " 行番号を表示
-set cursorline  " カーソル行をハイライト
+set title                  " ターミナルやウィンドウのタイトルを更新
+set number relativenumber  " 行番号を表示
+set cursorline             " カーソル行をハイライト
 
 " 不可視文字を表示
 set list
