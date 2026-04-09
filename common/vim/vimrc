@@ -100,7 +100,7 @@ set wrapscan    " 検索が末尾まで進んだら，先頭から再検索
 
 set cinoptions+=:0  " C インデントの一部を調整
 set expandtab       " Tab 入力をスペースに展開
-set tabstop=4       " タブ文字の表示幅
+set tabstop=2       " タブ文字の表示幅
 set softtabstop=2   " Tab / BS 操作時の見かけ上の幅
 set shiftwidth=2    " 自動インデント幅
 
@@ -115,7 +115,6 @@ augroup fileTypeIndent
     autocmd!
     autocmd BufNewFile,BufRead *.sh  setlocal tabstop=4 softtabstop=4 shiftwidth=4
     autocmd BufNewFile,BufRead *.c   setlocal tabstop=4 softtabstop=4 shiftwidth=4
-    autocmd BufNewFile,BufRead *.sty setlocal tabstop=1 softtabstop=1 shiftwidth=1
 augroup END
 
 
