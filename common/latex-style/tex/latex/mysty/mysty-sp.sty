@@ -11,7 +11,9 @@
 %   - \SPFooterAuthor
 %   - \SPFooterLabel
 %   - \SPFooterVersion
+%   - \SPFootskip
 %   - \SPLineStretch
+%   - \SPFloatBreak
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -117,6 +119,25 @@
 \AtBeginDocument{
   \ifdefined\SP
     \sp@applyall
+  \fi
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Float Helper
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{caption}
+
+% API
+\makeatletter
+\newcommand{\SPFloatBreak}[2][htbp]{
+  \ifdefined\SP
+    \expandafter\end\expandafter{#2}
+    \expandafter\begin\expandafter{#2}[#1]
+      \ContinuedFloat
+      \centering
   \fi
 }
 \makeatother
