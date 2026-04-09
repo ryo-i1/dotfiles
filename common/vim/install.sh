@@ -24,7 +24,7 @@ backup_root="${HOME}/.dotfiles_backup/vim"
 ##################################################
 
 args_init
-args_register_val "--prefix"
+args_register_value "--prefix"
 args_parse "$@"
 
 arg_prefix="$(args_get "--prefix" || true)"
