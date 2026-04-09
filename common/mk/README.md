@@ -8,16 +8,18 @@
 ./uninstall.sh
 ````
 
----
 
+---
 ## Paths
 
-| src           | dst                            |
-| ------------- | ------------------------------ |
-| `tex/core.mk` | `~/local/share/mk/tex/core.mk` |
+| src                | dst                            | note                               |
+| ---                | ---                            | ---                                |
+| `env.zsh`          | `~/.zsh/rc.d/mk.zsh`           | zsh 設定                           |
+| `tex/core.mk`      | `~/local/share/mk/tex/core.mk` | 共有 Makefile 本体                 |
+| `templates/tex.mk` | -                              | LaTeX プロジェクトの Makefile 雛形 |
+
 
 ---
-
 ## Usage
 
 プロジェクト側 `Makefile`:
@@ -26,8 +28,8 @@
 include ~/local/share/mk/tex/core.mk
 ```
 
----
 
+---
 ## Make Commands
 
 ```bash
