@@ -4,27 +4,62 @@ set -euo pipefail
 # latex-style/install.sh
 
 ##################################################
-# Paths
+# Root Paths
 ##################################################
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(cd "${script_dir}" && pwd)"
+repo_root="$(cd "${script_dir}/../.." && pwd)"  # use for script path
+sty_root="${repo_root}/common/latex-style"    # use for link path
 
-# common helpers
 source "${repo_root}/lib/common.sh"
+source "${repo_root}/lib/args.sh"
 
-# tex
-src_mysty_dir="${repo_root}/tex/latex/mysty"
-texmfhome="${HOME}/local/texmf"
-dst_mysty_dir="${texmfhome}/tex/latex/mysty"
 
-# zsh
-src_zsh="${repo_root}/shell/latex-style.zsh"
-dst_zsh_rcd="${HOME}/.zsh/rc.d"
-dst_zsh="${dst_zsh_rcd}/latex-style.zsh"
+##################################################
+# Args
+##################################################
 
+args_init
+args_register_value "--home"
+args_parse "$@"
+
+arg_home="$(args_get "--home" || true)"
+logical_home="${arg_home:-$HOME}"
+
+
+##################################################
+# Path rewrite
+##################################################
+
+rewrite_home_prefix() {
+    local path=$1
+    if [[ "${path}" == "${HOME}"* ]]; then
+        printf '%s\n' "${logical_home}${path#$HOME}"
+    else
+        printf '%s\n' "${path}"
+    fi
+}
+
+
+##################################################
+# Paths
+##################################################
+
+# root
+logical_sty_root="$(rewrite_home_prefix "${sty_root}")"
+
+# source
+src_mysty_dir="${logical_sty_root}/tex/latex/mysty"
+src_env="${logical_sty_root}/env.zsh"
+
+# destination
+dst_texmfhome="${logical_home}/local/texmf"
+dst_mysty_dir="${dst_texmfhome}/tex/latex/mysty"
+dst_env="${logical_home}/.zsh/rc.d/latex-style.zsh"
+
+# backup
 backup_suffix="$(date +%Y%m%d_%H%M%S)"
-backup_root="${HOME}/.latex_style_backup"
+backup_root="${HOME}/.dotfiles_backup/latex-style"
 
 
 ##################################################
@@ -48,24 +83,24 @@ install_sty() {
         link_if_needed "${src}" "${dst}" "${backup_root}" "${backup_suffix}"
     done
 
-    [ "${found}" -eq 1 ] || error "no .sty files found in: ${src_mysty_dir}"
+    [[ "${found}" -eq 1 ]] || error "no .sty files found in: ${src_mysty_dir}"
 }
 
 run_mktexlsr() {
     if command -v mktexlsr >/dev/null 2>&1; then
-        log "run: mktexlsr ${texmfhome}"
-        mktexlsr "${texmfhome}"
+        log "run: mktexlsr ${dst_texmfhome}"
+        mktexlsr "${dst_texmfhome}"
     else
-        warn "mktexlsr not found; skip filename database refresh"
+        warn "skip: mktexlsr not found"
     fi
 }
 
-install_zsh() {
-    if [[ ! -f "${src_zsh}" ]]; then
-        error "source file not found: ${src_zsh}"
+install_env() {
+    if [[ ! -f "${src_env}" ]]; then
+        error "source file not found: ${src_env}"
     fi
-    mkdir -p "${dst_zsh_rcd}"
-    link_if_needed "${src_zsh}" "${dst_zsh}" "${backup_root}" "${backup_suffix}"
+    mkdir -p "$(dirname "${dst_env}")"
+    link_if_needed "${src_env}" "${dst_env}" "${backup_root}" "${backup_suffix}"
 }
 
 
@@ -77,11 +112,11 @@ main() {
     log "Start latex-style setup"
 
     install_sty
-    run_mktexlsr
+    install_env
 
-    install_zsh
+    run_mktexlsr
 
     log "Done"
 }
 
-main "$@"
+main

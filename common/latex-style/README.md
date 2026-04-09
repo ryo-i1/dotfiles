@@ -3,16 +3,15 @@
 Custom LaTeX style files and setup scripts.
 
 ---
-
 ## Paths
 
 | src (repo)              | dst (system)                     | description                   |
 |-------------------------|----------------------------------|-------------------------------|
 | `tex/latex/mysty/`      | `~/local/texmf/tex/latex/mysty/` | `.sty` files (TEXMFHOME)      |
-| `shell/latex-style.zsh` | `~/.zsh/rc.d/latex-style.zsh`    | zsh config (TEXMFHOME export) |
+| `env.zsh`               | `~/.zsh/rc.d/latex-style.zsh`    | zsh config (TEXMFHOME export) |
+
 
 ---
-
 ## Install
 
 ```sh
@@ -23,8 +22,8 @@ Custom LaTeX style files and setup scripts.
 * link zsh config to `~/.zsh/rc.d/`
 * run `mktexlsr`
 
----
 
+---
 ## Uninstall
 
 ```sh
@@ -34,17 +33,11 @@ Custom LaTeX style files and setup scripts.
 * remove symlinks
 * run `mktexlsr`
 
----
 
+---
 ## Contents
 
 * `.sty` files under `tex/latex/mysty/`
 * `shell/latex-style.zsh`
   * sets `TEXMFHOME=$HOME/local/texmf`
 * install / uninstall scripts
-
----
-
-## Notes
-
-* `.zshrc` should load `~/.zsh/rc.d/*.zsh`
