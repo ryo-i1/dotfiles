@@ -1,0 +1,122 @@
+% mysty-sp.sty
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mysty-sp}[line spacing layout]
+
+% This is the package for making line spacing document.
+% API should be used in preamble.
+%
+% API:
+%   - \SPGeometry
+%   - \SPFooterDate
+%   - \SPFooterAuthor
+%   - \SPFooterLabel
+%   - \SPFooterVersion
+%   - \SPLineStretch
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Geometry
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+% internal state
+\def\sp@geometry@option{top=20truemm,bottom=30truemm,left=20truemm,right=20truemm}
+
+% API
+\newcommand{\SPGeometry}[1]{
+ \def\sp@geometry@option{#1}
+}
+
+% apply
+\newcommand{\sp@geometry@apply}{
+  \RequirePackage{geometry}
+  \expandafter\geometry\expandafter{\sp@geometry@option}
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fancyhdr / footer
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+\newcommand{\sp@twodigits}[1]{\ifnum#1<10 0\fi\number#1}
+
+% internal state
+\def\sp@footer@date{\number\year/\sp@twodigits{\month}/\sp@twodigits{\day}}
+\def\sp@footer@author{}
+\def\sp@footer@label{}
+\def\sp@footer@version{-}
+\def\sp@footskip{18pt}
+
+\@ifundefined{SP}{}{\def\sp@footer@version{\SP}}
+
+% API
+\newcommand{\SPFooterDate}[1]{\def\sp@footer@date{#1}}
+\newcommand{\SPFooterAuthor}[1]{\def\sp@footer@author{#1}}
+\newcommand{\SPFooterLabel}[1]{\def\sp@footer@label{#1}}
+\newcommand{\SPFooterVersion}[1]{\def\sp@footer@version{#1}}
+\newcommand{\SPFootskip}[1]{\def\sp@footskip{#1}}
+
+% apply
+\newcommand{\sp@fancyhdr@setpagestyle}{
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0.4pt}
+  \fancyfoot[C]{\sp@footer@date\quad \sp@footer@author\quad \sp@footer@label\quad ver.\sp@footer@version\quad p.\thepage}
+}
+\newcommand{\sp@fancyhdr@apply}{
+  \RequirePackage{fancyhdr}
+
+  \setlength{\footskip}{\sp@footskip}
+
+  \pagestyle{fancy}
+  \sp@fancyhdr@setpagestyle
+  \fancypagestyle{plain}{\sp@fancyhdr@setpagestyle}
+  %\fancypagestyle{empty}{\sp@fancyhdr@setpagestyle}
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Line spacing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+% internal state
+\def\sp@line@stretch{3.0}
+
+% API
+\newcommand{\SPLineStretch}[1]{
+  \def\sp@line@stretch{#1}
+}
+
+% apply
+\newcommand{\sp@line@apply}{
+ \RequirePackage{setspace}
+
+ \setstretch{\sp@line@stretch}
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAIN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+\newcommand{\sp@applyall}{
+  \sp@geometry@apply
+  \sp@fancyhdr@apply
+  \sp@line@apply
+}
+\makeatother
+
+
+\makeatletter
+\AtBeginDocument{
+  \ifdefined\SP
+    \sp@applyall
+  \fi
+}
+\makeatother

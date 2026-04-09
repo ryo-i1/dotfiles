@@ -1,0 +1,160 @@
+% mysty-common.sty
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mysty-common}[common settings]
+
+% This is the package that integrates common settings.
+% API should be used in preamble.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\PassOptionsToPackage{dvipdfmx}{graphics}
+\PassOptionsToPackage{dvipdfmx}{xcolor}
+
+\RequirePackage{graphicx}
+\RequirePackage{xcolor}
+\RequirePackage{amsmath}
+%\RequirePackage{amssymb}
+%\RequirePackage{amsfonts}
+\RequirePackage{bm}
+\RequirePackage{siunitx}
+\RequirePackage{booktabs}
+\RequirePackage{multirow}
+\RequirePackage{here}
+\RequirePackage{enumitem}
+\RequirePackage{listings}
+\RequirePackage{jlisting}
+\RequirePackage{subcaption}
+\RequirePackage{url}
+\RequirePackage{placeins}
+\RequirePackage{pgffor}
+\RequirePackage{subfiles}
+
+\makeatletter
+\@ifpackageloaded{cite}{}{\RequirePackage{cite}}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Helper
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\providecommand{\erase}[1]{\textcolor{black}{#1}}
+\providecommand{\red}[1]{\textcolor{red}{#1}}
+\providecommand{\blue}[1]{\textcolor{blue}{#1}}
+\providecommand{\dd}{\mathrm{d}}
+\providecommand{\hquad}{\hspace{0.5em}}
+
+% table caption in minipage
+\makeatletter
+\providecommand{\tblcaption}{\def\@captype{table}\caption}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% siunitx
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\sisetup{
+  group-separator = {,},
+  group-minimum-digits = 4
+}
+
+\makeatletter
+\@ifundefined{unit}{
+  \newcommand{\unit}[1]{\,\si{#1}}
+}{
+  \renewcommand{\unit}[1]{\,\si{#1}}
+}
+\providecommand{\unitb}[1]{\,[\si{#1}]}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% subcaption
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\captionsetup[subfigure]{labelformat=simple}
+\captionsetup[subtable]{labelformat=simple}
+\renewcommand{\thesubfigure}{(\alph{subfigure})}
+\renewcommand{\thesubtable}{(\alph{subtable})}
+
+\makeatletter
+\renewcommand{\p@subfigure}{\thefigure\space}
+\renewcommand{\p@subtable}{\thetable\space}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% listings / jlisting
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\lstset{
+  language = C,
+  backgroundcolor = \color{white},
+  breaklines = true,
+  breakindent = 10pt,
+  basicstyle = \ttfamily\scriptsize,
+  commentstyle = {\ttfamily \color[cmyk]{1,0.4,1,0}},
+  classoffset = 0,
+  keywordstyle = {\bfseries \color[cmyk]{0,1,0,0}},
+  stringstyle = {\ttfamily \color[rgb]{0,0,1}},
+  frame = tb,
+  framesep = 5pt,
+  numbers = left,
+  stepnumber = 1,
+  numberstyle = \tiny,
+  tabsize = 4,
+  captionpos = t,
+  showstringspaces = false,
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% cite
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+\newif\if@cm@citeused
+\@cm@citeusedfalse
+
+\let\cm@cite@orig\cite
+\renewcommand{\cite}[1]{
+  \global\@cm@citeusedtrue
+  \cm@cite@orig{#1}
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+% internal state
+\def\cm@bibstyle{myjunsrt}
+\def\cm@bibfile{myrefs}
+
+% API
+\newcommand{\CMBibStyle}[1]{\def\cm@bibstyle{#1}}
+\newcommand{\CMBibFile}[1]{\def\cm@bibfile{#1}}
+
+\newcommand{\CMBibPrint}{
+  \if@cm@citeused
+    \bibliographystyle{\cm@bibstyle}
+    \bibliography{\cm@bibfile}
+  \fi
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% subfiles
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\CMSubfilePostamble}{
+  \clearpage
+  \CMBibPrint
+}
