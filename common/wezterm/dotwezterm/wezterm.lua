@@ -77,4 +77,17 @@ config.keys = require("keybinds").keys
 config.key_tables = require("keybinds").key_tables
 config.leader = { key = "q", mods = "CTRL", timeout_milliseconds = 2000 }
 
+-- '¥' ではなく '\' を入力
+table.insert(config.keys, {
+    key = "raw:93",
+    mods = "NONE",
+    action = wezterm.action.SendString("\\"),
+})
+-- opt+'¥' で '¥' を入力
+table.insert(config.keys, {
+    key = "raw:93",
+    mods = "OPT",
+    action = wezterm.action.SendString("¥"),
+})
+
 return config
