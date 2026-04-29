@@ -26,6 +26,7 @@ vim.opt.listchars = {
 }
 
 vim.opt.background = "dark"
+vim.opt.termguicolors = true    -- true color を有効化
 
 vim.opt.showmatch = true        -- 対応する括弧を短時間ハイライト
 vim.opt.matchtime = 1           -- 括弧ハイライトの表示時間
@@ -46,6 +47,14 @@ vim.opt.cmdheight = 2           -- メッセージ表示欄を 2 行確保
 vim.opt.wildmenu = true         -- コマンドライン補完候補をメニュー表示
 vim.opt.wildmode = "list:longest"
 vim.opt.showcmd = true          -- 入力中のコマンドを右下に表示
+
+
+--------------------------------------------------
+-- Window
+--------------------------------------------------
+
+vim.opt.splitright = true       -- 縦分割を右側に開く
+vim.opt.splitbelow = true       -- 横分割を下側に開く
 
 
 --------------------------------------------------
@@ -85,21 +94,6 @@ vim.opt.autoindent = true       -- 前行のインデントを引き継ぐ
 vim.opt.cinkeys:remove("0#")
 vim.opt.indentkeys:remove("0#")
 
-local filetype_indent_group = vim.api.nvim_create_augroup("fileTypeIndent", {
-  clear = true,
-})
-
--- shell script と C ではインデント幅を 4 にする
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-  group = filetype_indent_group,
-  pattern = { "*.sh", "*.c" },
-  callback = function()
-    vim.opt_local.tabstop = 4
-    vim.opt_local.softtabstop = 4
-    vim.opt_local.shiftwidth = 4
-  end,
-})
-
 
 --------------------------------------------------
 -- Mouse
@@ -119,11 +113,3 @@ vim.opt.clipboard = "unnamed"   -- レジスタと OS のクリップボード�
 vim.opt.history = 10000         -- コマンドライン履歴の保存件数
 vim.opt.swapfile = false        -- swap file を作成しない
 vim.opt.backup = false          -- backup file を作成しない
-
--- コメント行で改行しても，次行を自動コメント化しない
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "*",
-  callback = function()
-    vim.opt_local.formatoptions:remove({ "r", "o" })
-  end,
-})
