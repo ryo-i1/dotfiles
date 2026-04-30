@@ -92,15 +92,24 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter",
     },
     opts = {
+      render_modes = { "n", "c", "i" },
+
       sign = { enabled = false, },
       heading = {
         enabled = true,
         icons = {  -- display icon
-          "# ", "## ", "### ", "#4# ", "#5# ", "#6# ",
+          "#1. ", "#2. ", "#3. ", "#4. ", "#5. ", "#6. ",
         },
       },
       bullet = { enabled = true, },
       checkbox = { enabled = true, },
+
+      -- display as plain only the cursor line
+      anti_conceal = {
+        enabled = true,
+        above = 0,
+        below = 0,
+      },
     },
     keys = {
       {
