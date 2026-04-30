@@ -25,10 +25,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 
-  ------------------------------------------------
   -- Color scheme: iceberg
-  ------------------------------------------------
-
   {
     "cocopon/iceberg.vim",
     lazy = false,        -- 起動時に読み込む
@@ -43,10 +40,7 @@ require("lazy").setup({
   },
 
 
-  ------------------------------------------------
   -- Clipboard: OSC52 (vim-oscyank)
-  ------------------------------------------------
-
   {
     "ojroques/vim-oscyank",
     config = function()
@@ -84,14 +78,75 @@ require("lazy").setup({
   },
 
 
-  ------------------------------------------------
   -- Syntax / filetype support
-  ------------------------------------------------
-
   {
     "sheerun/vim-polyglot",
   },
 
+
+  -- Markdown
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    ft = { "markdown" },  -- Markdown のときのみ読み込む（軽量化）
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    opts = {
+      sign = { enabled = false, },
+      heading = {
+        enabled = true,
+        icons = {  -- display icon
+          "# ", "## ", "### ", "#4# ", "#5# ", "#6# ",
+        },
+      },
+      bullet = { enabled = true, },
+      checkbox = { enabled = true, },
+    },
+    keys = {
+      {
+        "<leader>m",
+        function()
+          require("render-markdown").toggle()
+        end,
+        mode = "n",
+        desc = "Toggle markdown render",
+      },
+    },
+
+    config = function(_, opts)
+      require("render-markdown").setup(opts)
+
+      -- heading setting
+      local function set_markdown_hl()
+        local title = vim.api.nvim_get_hl(0, { name = "Title" })
+        title.bold = true
+
+        vim.api.nvim_set_hl(0, "Title", title)
+
+        for i = 1, 6 do
+          vim.api.nvim_set_hl(0, "@markup.heading." .. i .. ".markdown", {
+              link = "Title",
+          })
+        end
+      end
+
+      set_markdown_hl()
+      vim.api.nvim_create_autocmd("ColorScheme", {
+          callback = set_markdown_hl,
+      })
+    end,
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    opts = {
+      ensure_installed = {
+        "markdown",
+        "markdown_inline",
+      },
+    },
+  },
 }, {
   lockfile = vim.fn.stdpath("data") .. "/lazy/lazy-lock.json",
 })
