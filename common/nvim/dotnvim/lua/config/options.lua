@@ -111,6 +111,15 @@ vim.opt.autoindent = true       -- 前行のインデントを引き継ぐ
 vim.opt.cinkeys:remove("0#")
 vim.opt.indentkeys:remove("0#")
 
+-- markdown で indent を無効化
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "markdown",
+    callback = function()
+--      vim.opt_local.formatoptions:remove({ "o", "r" })
+      vim.opt_local.indentexpr = ""
+    end,
+})
+
 
 --------------------------------------------------
 -- Mouse
