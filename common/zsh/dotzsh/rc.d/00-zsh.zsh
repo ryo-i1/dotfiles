@@ -102,11 +102,19 @@ setopt list_types   # 補完候補にファイルの種類も表示
 autoload -U colors
 colors
 
-# 通常プロンプト
-PROMPT="%{${fg[green]}%}[%n@%m]%{${reset_color}%} %~ %# "
-# 複数行入力時
-PROMPT2='[%m]> '
+if [[ -n "${SSH_CONNECTION:-}" || -n "${SSH_CLIENT:-}" ]]; then
+  # SSH接続中
+  HOST_COLOR="${fg[red]}"
+  HOST_LABEL="%m:SSH"
+else
+  HOST_COLOR="${fg[green]}"
+  HOST_LABEL="%m"
+fi
 
+# プロンプト
+PROMPT="%{${HOST_COLOR}%}[%n@${HOST_LABEL}]%{${reset_color}%} %~ %# "
+# 継続行
+PROMPT2='> '
 # コマンド補正プロンプト
 SPROMPT="correct '%R' to '%r' [nyae]? "
 
