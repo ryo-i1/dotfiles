@@ -37,8 +37,25 @@ vim.opt.foldenable = false      -- 折りたたみを無効化
 vim.opt.visualbell = true       -- 音の代わりに画面点滅を使う
 vim.opt.errorbells = false      -- エラー音を無効化
 
+-- 背景を透明にする
+local function transparent_bg()
+  vim.cmd([[
+    highlight Normal guibg=NONE ctermbg=NONE
+    highlight NormalNC guibg=NONE ctermbg=NONE
+    highlight EndOfBuffer guibg=NONE ctermbg=NONE
+    highlight LineNr guibg=NONE
+    highlight SignColumn guibg=NONE
+    highlight VertSplit guibg=NONE
+  ]])
+end
 
---------------------------------------------------
+transparent_bg()
+vim.api.nvim_create_autocmd("ColorScheme", {
+    callback = transparent_bg,
+})
+
+
+  --------------------------------------------------
 -- UI: status / command line
 --------------------------------------------------
 
