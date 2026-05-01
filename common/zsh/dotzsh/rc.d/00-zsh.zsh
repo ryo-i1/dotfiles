@@ -111,8 +111,27 @@ else
   HOST_LABEL="%m"
 fi
 
+short_pwd() {
+  local pwd="${PWD/#$HOME/~}"  # $HOME を ~ に置換
+  local result=""
+  local parts=("${(@s:/:)pwd}")
+
+  for i in {1..${#parts[@]}}; do
+    if [[ $i -lt ${#parts[@]} ]]; then
+      # 最後以外は頭文字のみ
+      result+="/${parts[i][1,1]}"
+    else
+      # 最後はそのまま
+      result+="/${parts[i]}"
+    fi
+  done
+
+  # 先頭が // になるのを防ぐ
+  echo "${result#/}"
+}
+
 # プロンプト
-PROMPT="%{${HOST_COLOR}%}[%n@${HOST_LABEL}]%{${reset_color}%} %~ %# "
+PROMPT="%{${HOST_COLOR}%}[%n@${HOST_LABEL}]%{${reset_color}%} \$(short_pwd) %# "
 # 継続行
 PROMPT2='> '
 # コマンド補正プロンプト
