@@ -18,7 +18,6 @@ keymap("n", "<Esc><Esc>", "<Cmd>nohlsearch<CR><Esc>", { silent = true })
 keymap("n", "j", "gj", { silent = true })
 keymap("n", "k", "gk", { silent = true })
 
-
 --------------------------------------------------
 -- Insert blank lines
 --------------------------------------------------
@@ -89,3 +88,11 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.cmd("cnoreabbrev <buffer> run Run")
   end,
 })
+
+
+--------------------------------------------------
+-- Insert Mode
+--------------------------------------------------
+
+-- `Shift+Tab` でインデントを一段削除
+keymap("i", "<S-Tab>", "<C-d>", { noremap = true })
