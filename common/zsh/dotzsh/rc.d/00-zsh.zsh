@@ -131,7 +131,8 @@ short_pwd() {
 }
 
 # プロンプト
-PROMPT="%{${HOST_COLOR}%}[%n@${HOST_LABEL}]%{${reset_color}%} \$(short_pwd) %# "
+#PROMPT="%{${HOST_COLOR}%}[%n@${HOST_LABEL}]%{${reset_color}%} \$(short_pwd) %# "
+PROMPT="%{${HOST_COLOR}%}[%n@${HOST_LABEL}]%{${reset_color}%} %~ %# "
 # 継続行
 PROMPT2='> '
 # コマンド補正プロンプト
