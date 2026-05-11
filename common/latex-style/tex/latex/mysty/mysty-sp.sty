@@ -5,15 +5,46 @@
 % This is the package for making line spacing document.
 % API should be used in preamble.
 %
-% API:
-%   - \SPGeometry
-%   - \SPFooterDate
-%   - \SPFooterAuthor
-%   - \SPFooterLabel
-%   - \SPFooterVersion
-%   - \SPFootskip
-%   - \SPLineStretch
-%   - \SPFloatBreak
+% API (preamble):
+%   - \SPFontSize{14pt}
+%   - \SPGeometry{margin=20truemm}
+%   - \SPFooterDate{date}
+%   - \SPFooterAuthor{author}
+%   - \SPFooterLabel{label}
+%   - \SPFooterVersion{ver}
+%   - \SPFootskip{18pt}
+%   - \SPLineStretch{3.0}
+%
+% API (in doc):
+%   - \SPFloatBreak[htbp]{figure}
+
+\RequirePackage{mysty-common}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FontSize
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+% internal state
+\def\sp@fontsize@base{}
+
+%API
+\newcommand{\SPFontSize}[1]{
+  \def\sp@fontsize@base{#1}
+}
+
+% apply
+\newcommand{\sp@fontsize@apply}{
+  \ifx\sp@fontsize@base\@empty
+    % do nothing
+  \else
+    \MCKeepSmallFontNormal
+    \MCFontSize{\sp@fontsize@base}
+    \mc@fontsize@apply
+  \fi
+}
+\makeatother
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -108,6 +139,7 @@
 
 \makeatletter
 \newcommand{\sp@applyall}{
+  \sp@fontsize@apply
   \sp@geometry@apply
   \sp@fancyhdr@apply
   \sp@line@apply

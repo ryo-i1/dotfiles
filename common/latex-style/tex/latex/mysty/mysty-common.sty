@@ -4,6 +4,10 @@
 
 % This is the package that integrates common settings.
 % API should be used in preamble.
+%
+% API (preamble):
+%   - \MCFontSize{14pt}
+%   - \MCKeepSmallFontNormal
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -158,3 +162,80 @@
   \clearpage
   \MCBibPrint
 }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Font size
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+
+% internal state
+\newdimen\mc@fontsize@base
+\mc@fontsize@base=0pt
+
+\newif\ifmc@fontsize@keep@small
+\mc@fontsize@keep@smallfalse
+
+% API
+\newcommand{\MCFontSize}[1]{
+  \mc@fontsize@base=#1\relax
+}
+
+\newcommand{\MCKeepSmallFontNormal}{
+  \mc@fontsize@keep@smalltrue
+}
+
+% apply
+\newcommand{\mc@fontsize@scaled}[1]{
+  \strip@pt\dimexpr #1\mc@fontsize@base/10\relax pt
+}
+\newcommand{\mc@definefontsize}[3]{
+  \renewcommand#1{
+    \@setfontsize#1{\mc@fontsize@scaled{#2}}{\mc@fontsize@scaled{#3}}
+  }
+}
+\newcommand{\mc@fontsize@apply}{
+  \ifdim\mc@fontsize@base=0pt
+    % do nothing
+  \else
+    \mc@definefontsize{\normalsize}{10}{12}
+    \mc@definefontsize{\large}{12}{14}
+    \mc@definefontsize{\Large}{14.4}{18}
+    \mc@definefontsize{\LARGE}{17.28}{22}
+    \mc@definefontsize{\huge}{20.74}{25}
+    \mc@definefontsize{\Huge}{24.88}{30}
+
+    \ifmc@fontsize@keep@small
+      \renewcommand\small{\normalsize}
+      \renewcommand\footnotesize{\normalsize}
+      \renewcommand\scriptsize{\normalsize}
+      \renewcommand\tiny{\normalsize}
+    \else
+      \mc@definefontsize{\small}{9}{11}
+      \mc@definefontsize{\footnotesize}{8}{9.5}
+      \mc@definefontsize{\scriptsize}{7}{8}
+      \mc@definefontsize{\tiny}{5}{6}
+    \fi
+
+    \normalsize
+
+    \DeclareMathSizes
+      {\strip@pt\mc@fontsize@base}
+      {\strip@pt\mc@fontsize@base}
+      {\strip@pt\dimexpr 0.7\mc@fontsize@base\relax}
+      {\strip@pt\dimexpr 0.5\mc@fontsize@base\relax}
+  \fi
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAIN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+\AtBeginDocument{
+  \mc@fontsize@apply
+}
+\makeatother
