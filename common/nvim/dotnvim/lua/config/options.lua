@@ -37,6 +37,8 @@ vim.opt.foldenable = false      -- 折りたたみを無効化
 vim.opt.visualbell = true       -- 音の代わりに画面点滅を使う
 vim.opt.errorbells = false      -- エラー音を無効化
 
+vim.opt.colorcolumn = "81"      -- 垂直補助線を引く
+
 -- 背景を透明にする
 local function transparent_bg()
   vim.cmd([[
