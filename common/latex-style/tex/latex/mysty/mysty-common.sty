@@ -117,13 +117,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \makeatletter
-\newif\if@cm@citeused
-\@cm@citeusedfalse
+\newif\if@mc@citeused
+\@mc@citeusedfalse
 
-\let\cm@cite@orig\cite
+\let\mc@cite@orig\cite
 \renewcommand{\cite}[1]{
-  \global\@cm@citeusedtrue
-  \cm@cite@orig{#1}
+  \global\@mc@citeusedtrue
+  \mc@cite@orig{#1}
 }
 \makeatother
 
@@ -134,17 +134,17 @@
 
 \makeatletter
 % internal state
-\def\cm@bibstyle{myjunsrt}
-\def\cm@bibfile{myrefs}
+\def\mc@bibstyle{myjunsrt}
+\def\mc@bibfile{myrefs}
 
 % API
-\newcommand{\CMBibStyle}[1]{\def\cm@bibstyle{#1}}
-\newcommand{\CMBibFile}[1]{\def\cm@bibfile{#1}}
+\newcommand{\MCBibStyle}[1]{\def\mc@bibstyle{#1}}
+\newcommand{\MCBibFile}[1]{\def\mc@bibfile{#1}}
 
-\newcommand{\CMBibPrint}{
-  \if@cm@citeused
-    \bibliographystyle{\cm@bibstyle}
-    \bibliography{\cm@bibfile}
+\newcommand{\MCBibPrint}{
+  \if@mc@citeused
+    \bibliographystyle{\mc@bibstyle}
+    \bibliography{\mc@bibfile}
   \fi
 }
 \makeatother
@@ -154,7 +154,7 @@
 % subfiles
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\CMSubfilePostamble}{
+\newcommand{\MCSubfilePostamble}{
   \clearpage
-  \CMBibPrint
+  \MCBibPrint
 }
