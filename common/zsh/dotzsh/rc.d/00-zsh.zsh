@@ -173,6 +173,10 @@ alias l='ls -phG'
 
 alias relogin='exec $SHELL -l'
 
+if command -v nvim >/dev/null 2>&1; then
+    alias vim="nvim"
+fi
+
 
 ##################################################
 # Suffix Alias (open by extension)
