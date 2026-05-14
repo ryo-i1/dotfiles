@@ -40,6 +40,33 @@ require("lazy").setup({
   },
 
 
+  -- statusline
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("lualine").setup({
+          options = {
+            theme = "iceberg",
+            globalstatus = true,
+          },
+
+          sections = {
+            lualine_a = { "mode" },
+            lualine_b = { "branch", "diff" },
+            lualine_c = { { "filename", path = 1 } },
+
+            lualine_x = { "diagnostics" },
+            lualine_y = { "encoding", "filetype" },
+            lualine_z = { "location" },
+          },
+      })
+    end,
+  },
+
+
   -- Clipboard: OSC52 (vim-oscyank)
   {
     "ojroques/vim-oscyank",
