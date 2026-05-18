@@ -84,6 +84,9 @@ zstyle ':completion:*' menu select=1
 zstyle ':completion:*' list-colors 'di=32' 'ex=31' 'ln=35'
 # sudo の後ろでコマンドを補完
 zstyle ':completion:*:sudo:*' command-path /usr/local/bin /usr/bin /bin
+# ssh host の補完
+zstyle ':completion:*:*:ssh:*' hosts \
+    $(grep '^Host ' ~/.ssh/config | awk '{print $2}')
 
 # Shift+Tab で逆順に巡回
 bindkey "^[[Z" reverse-menu-complete
