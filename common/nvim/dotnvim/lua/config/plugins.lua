@@ -530,6 +530,44 @@ require("lazy").setup({
     end,
   },
 
+  -- git signs
+  {
+    "lewis6991/gitsigns.nvim",
+
+    opts = {},
+
+    keys = {
+      {
+        "<leader>",
+        function()
+          require("gitsigns").next_hunk()
+        end,
+        desc = "Next hunk",
+      },
+      {
+        "[h",
+        function()
+          require("gitsigns").prev_hunk()
+        end,
+        desc = "Prev hunk",
+      },
+      {
+        "<leader>hp",
+        function()
+          require("gitsigns").preview_hunk()
+        end,
+        desc = "Preview hunk",
+      },
+      {
+        "<leader>hr",
+        function()
+          require("gitsigns").reset_hunk()
+        end,
+        desc = "Reset hunk",
+      },
+    },
+  },
+
 }, {
   lockfile = vim.fn.stdpath("data") .. "/lazy/lazy-lock.json",
 })
