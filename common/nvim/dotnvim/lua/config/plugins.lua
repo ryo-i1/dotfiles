@@ -73,6 +73,32 @@ local function lualine_path()
 end
 
 
+-- oil close
+--
+-- close oil window normally.
+-- if there are no non-oil windows, quit Neovim itself.
+local function oil_close_or_quit()
+  
+  -- all windows in current tabpage
+  local wins = vim.api.nvim_tabpage_list_wins(0)
+
+  -- windows except oil
+  local non_oil_wins = vim.tbl_filter(function(win)
+      local buf = vim.api.nvim_win_get_buf(win)
+      return vim.bo[buf].filetype ~= "oil"
+  end, wins)
+
+  -- only oil is open
+  if #non_oil_wins == 0 then
+    vim.cmd("quit")
+
+  -- close only oil window
+  else
+    require("oil.actions").close.callback()
+  end
+end
+
+
 --------------------------------------------------
 -- Plugins
 --------------------------------------------------
@@ -143,7 +169,7 @@ require("lazy").setup({
       },
 
       keymaps = {
-        ["q"] = "actions.close",
+        ["q"] = oil_close_or_quit,
       },
     },
 
