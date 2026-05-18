@@ -568,6 +568,37 @@ require("lazy").setup({
     },
   },
 
+  -- which key
+  {
+    "folke/which-key.nvim",
+
+    event = "VeryLazy",
+
+    opts = {
+      preset = "modern",
+      win = {
+        border = "single",
+        padding = { 1, 2 },
+      },
+      layout = {
+        width = {
+          min = 30,
+        },
+        spacing = 4,
+      },
+    },
+
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show()
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
+  },
+
 }, {
   lockfile = vim.fn.stdpath("data") .. "/lazy/lazy-lock.json",
 })
