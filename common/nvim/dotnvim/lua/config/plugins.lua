@@ -431,6 +431,35 @@ require("lazy").setup({
     automatic_enable = true,
   },
 
+  -- completion
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+    },
+
+    event = "InsertEnter",
+
+    config = function()
+      local cmp = require("cmp")
+
+      cmp.setup({
+        sources = {
+          { name = "nvim_lsp" },
+        },
+
+        mapping = cmp.mapping.preset.insert({
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<CR>"] = cmp.mapping.confirm({
+            select = true,
+          }),
+          ["<Tab>"] = cmp.mapping.select_next_item(),
+          ["S-<Tab>"] = cmp.mapping.select_prev_item(),
+        }),
+      })
+    end,
+  },
+
 }, {
   lockfile = vim.fn.stdpath("data") .. "/lazy/lazy-lock.json",
 })
