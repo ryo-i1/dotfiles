@@ -317,7 +317,119 @@ require("lazy").setup({
       multiline_threshold = 3,
       max_lines = 5,
     },
-  }
+  },
+
+  -- fuzzy finder
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+
+    opts = {
+      defaults = {
+        layout_strategy = "horizontal",
+        sorting_strategy = "ascending",
+      },
+    },
+
+    keys = {
+      {
+        "<leader>ff",
+        function()
+          require("telescope.builtin").find_files({
+            hidden = true,
+            no_ignore = true,  -- gitignore を無視
+          })
+        end,
+        desc = "Find files",
+      },
+
+      {
+        "<leader>fg",
+        function()
+          require("telescope.builtin").live_grep({
+            additional_args = { "--hidden" }
+          })
+        end,
+        desc = "Live grep",
+      },
+
+      {
+        "<leader>fb",
+        function()
+          require("telescope.builtin").buffers()
+        end,
+        desc = "Buffers",
+      },
+
+      {
+        "<leader>fh",
+        function()
+          require("telescope.builtin").help_tags()
+        end,
+        desc = "Help tags",
+      },
+    },
+  },
+
+  -- LSP
+  {
+    "neovim/nvim-lspconfig",
+
+    config = function()
+      vim.lsp.config("lua_ls", {
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { "vim" },
+            },
+          },
+        },
+      })
+
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(ev)
+          local opts = { buffer = ev.buf, silent = true }
+
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+          vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+          vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+        end,
+      })
+    end,
+  },
+  -- mason
+  {
+    "williamboman/mason.nvim",
+
+    opts = {
+      ui = {
+        check_outdated_packages_on_open = false,
+        border = "single",
+      },
+    }
+  },
+  -- mason-lspconfig
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "neovim/nvim-lspconfig",
+    },
+
+    opts = {
+      ensure_installed = {
+        "bashls",
+        "clangd",
+        "lua_ls",
+        "pyright",
+      },
+    },
+    automatic_enable = true,
+  },
 
 }, {
   lockfile = vim.fn.stdpath("data") .. "/lazy/lazy-lock.json",
