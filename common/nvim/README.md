@@ -35,3 +35,14 @@ dotfiles/
 ```
 
 
+## Requirements
+
+### Homebrew
+
+- telescope
+    - `ripgrep fd`
+- LSP
+    - `node`
+- formatter
+    - `stylua shfmt clang-format jq prettier black`
+

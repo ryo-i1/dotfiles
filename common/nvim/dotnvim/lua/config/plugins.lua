@@ -50,7 +50,7 @@ local function format_path(path)
 
     -- HOME ("~")
     elseif part == "~" then
-      table.insert (shortened, "~")
+      table.insert(shortened, "~")
 
     -- last directories
     elseif i > #parts - 3 then
@@ -78,7 +78,7 @@ end
 -- close oil window normally.
 -- if there are no non-oil windows, quit Neovim itself.
 local function oil_close_or_quit()
-  
+
   -- all windows in current tabpage
   local wins = vim.api.nvim_tabpage_list_wins(0)
 
@@ -349,7 +349,7 @@ require("lazy").setup({
         "<leader>fg",
         function()
           require("telescope.builtin").live_grep({
-            additional_args = { "--hidden" }
+            additional_args = { "--hidden" },
           })
         end,
         desc = "Live grep",
@@ -410,7 +410,7 @@ require("lazy").setup({
         check_outdated_packages_on_open = false,
         border = "single",
       },
-    }
+    },
   },
   -- mason-lspconfig
   {
@@ -458,6 +458,45 @@ require("lazy").setup({
         }),
       })
     end,
+  },
+
+  -- formatter
+  {
+    "stevearc/conform.nvim",
+
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+
+        python = { "black" },
+
+        sh = { "shfmt" },
+        bash = { "shfmt" },
+        zsh = { "shfmt" },
+
+        c = { "clang_format" },
+        cpp = { "clang_format" },
+
+        json = { "jq" },
+
+        markdown = { "prettier" },
+        yaml = { "prettier" },
+      },
+    },
+
+    keys = {
+      {
+        "<leader><leader>",
+        function()
+          require("conform").format({
+            async = true,
+            lsp_format = "fallback",
+          })
+        end,
+        mode = "n",
+        desc = "Format file",
+      },
+    },
   },
 
 }, {
