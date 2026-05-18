@@ -45,4 +45,6 @@ dotfiles/
     - `node`
 - formatter
     - `stylua shfmt clang-format jq prettier black`
+- lint
+    - `shellcheck ruff`
 
