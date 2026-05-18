@@ -20,6 +20,60 @@ vim.opt.rtp:prepend(lazypath)
 
 
 --------------------------------------------------
+-- Functions
+--------------------------------------------------
+
+-- path formatter
+--
+-- HOME は "~" 表記
+-- 最後の 2 階層以外は 1 文字に短縮
+local function format_path(path)
+
+  -- del prefix
+  path = path:gsub("^oil://", "")
+
+  -- start with "~"
+  local home = vim.fn.expand("~")
+  if vim.startswith(path, home) then
+    path = "~" .. path:sub(#home + 1)
+  end
+
+  -- split path with "/"
+  local parts = vim.split(path, "/", { plain = true })
+
+  local shortened = {}
+  for i, part in ipairs(parts) do
+
+    -- root ("/")
+    if part == "" then
+      table.insert(shortened, "")
+
+    -- HOME ("~")
+    elseif part == "~" then
+      table.insert (shortened, "~")
+
+    -- last directories
+    elseif i > #parts - 3 then
+      table.insert(shortened, part)
+
+    -- 途中階層
+    else
+      table.insert(shortened, part:sub(1, 1))
+    end
+  end
+
+  -- "/" で結合
+  return table.concat(shortened, "/")
+end
+
+-- lualine path
+local function lualine_path()
+  local path = vim.api.nvim_buf_get_name(0)
+  return format_path(path)
+end
+
+
+--------------------------------------------------
 -- Plugins
 --------------------------------------------------
 
@@ -46,24 +100,56 @@ require("lazy").setup({
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
-    config = function()
-      require("lualine").setup({
-          options = {
-            theme = "iceberg",
-            globalstatus = true,
-          },
 
-          sections = {
-            lualine_a = { "mode" },
-            lualine_b = { "branch", "diff" },
-            lualine_c = { { "filename", path = 1 } },
+    opts = {
+      options = {
+        theme = "iceberg",
+        globalstatus = true,
+      },
 
-            lualine_x = { "diagnostics" },
-            lualine_y = { "encoding", "filetype" },
-            lualine_z = { "location" },
-          },
-      })
-    end,
+      sections = {
+        lualine_a = { "mode" },
+        lualine_b = { "branch", "diff" },
+        lualine_c = { lualine_path },
+
+        lualine_x = { "diagnostics" },
+        lualine_y = { "encoding", "filetype" },
+        lualine_z = { "location" },
+      },
+    },
+  },
+
+
+  -- file explorer
+  {
+    "stevearc/oil.nvim",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+
+    opts = {
+      default_file_explorer = true,
+      delete_to_trash = true,
+
+      columns = {
+        "icon",
+        "permissions",
+        "size",
+        "mtime",
+      },
+      view_options = {
+        show_hidden = true,
+      },
+
+      keymaps = {
+        ["q"] = "actions.close",
+      },
+    },
+
+    keys = {
+      { "<leader>e", "<CMD>Oil<CR>", desc = "Open file explorer" },
+    },
   },
 
 
