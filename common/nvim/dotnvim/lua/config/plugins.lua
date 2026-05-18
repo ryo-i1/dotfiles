@@ -217,12 +217,6 @@ require("lazy").setup({
   },
 
 
-  -- Syntax / filetype support
-  {
-    "sheerun/vim-polyglot",
-  },
-
-
   -- Markdown
   {
     "MeanderingProgrammer/render-markdown.nvim",
@@ -285,16 +279,46 @@ require("lazy").setup({
     end,
   },
 
+  -- syntax highlight
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     opts = {
       ensure_installed = {
+        "bash",
+        "c",
+        "cpp",
+        "lua",
+        "python",
         "markdown",
         "markdown_inline",
+        "json",
+        "yaml",
+        "latex",
+        "make",
+        "vim",
+        "vimdoc",
+        "gnuplot",
+      },
+      highlight = {
+        enable = true,
+      },
+      indent = {
+        enable = true,
       },
     },
   },
+
+  -- pin headers
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+
+    opts = {
+      multiline_threshold = 3,
+      max_lines = 5,
+    },
+  }
+
 }, {
   lockfile = vim.fn.stdpath("data") .. "/lazy/lazy-lock.json",
 })
