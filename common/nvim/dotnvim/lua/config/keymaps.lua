@@ -2,7 +2,7 @@
 -- Leader
 --------------------------------------------------
 
-vim.g.mapleader = " "
+vim.g.mapleader = ","
 
 
 --------------------------------------------------
@@ -17,6 +17,10 @@ keymap("n", "<Esc><Esc>", "<Cmd>nohlsearch<CR><Esc>", { silent = true })
 -- 折り返し時に表示行単位で移動する
 keymap("n", "j", "gj", { silent = true })
 keymap("n", "k", "gk", { silent = true })
+
+-- cursor move
+keymap({ "n", "v" }, "<C-n>", "20j")
+keymap({ "n", "v" }, "<C-p>", "20k")
 
 --------------------------------------------------
 -- Insert blank lines

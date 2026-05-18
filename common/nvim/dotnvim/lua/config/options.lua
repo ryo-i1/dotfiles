@@ -37,8 +37,6 @@ vim.opt.foldenable = false      -- 折りたたみを無効化
 vim.opt.visualbell = true       -- 音の代わりに画面点滅を使う
 vim.opt.errorbells = false      -- エラー音を無効化
 
-vim.opt.colorcolumn = "81"      -- 垂直補助線を引く
-
 -- 背景を透明にする
 local function transparent_bg()
   vim.cmd([[
@@ -56,8 +54,34 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     callback = transparent_bg,
 })
 
+--vim.opt.colorcolumn = "81"      -- 垂直補助線を引く
+local function setup_overlength()
+  vim.api.nvim_set_hl(0, "OverLength", {
+      underdotted = true,
+      sp = "#89b8ff",
+  })
 
-  --------------------------------------------------
+  -- 重複登録を避ける
+  for _, m in ipairs(vim.fn.getmatches()) do
+    if m.group == "OverLength" then
+      vim.fn.matchdelete(m.id)
+    end
+  end
+
+  vim.fn.matchadd("OverLength", "\\%>80v.", 200)  -- 81桁目以降を強調
+end
+
+vim.api.nvim_create_autocmd({
+    "VimEnter",
+    "BufEnter",
+    "WinEnter",
+    "ColorScheme",
+}, {
+  callback = setup_overlength,
+})
+
+
+--------------------------------------------------
 -- UI: status / command line
 --------------------------------------------------
 
