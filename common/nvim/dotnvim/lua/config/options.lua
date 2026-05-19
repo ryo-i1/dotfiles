@@ -13,8 +13,9 @@ vim.opt.fileencoding = "utf-8"  -- 保存時の文字コード
 vim.opt.title = true            -- ターミナルやウィンドウのタイトルを更新
 vim.opt.number = true           -- 絶対行番号を表示
 vim.opt.relativenumber = true   -- 相対行番号を表示
-vim.opt.signcolumn = "yes:1"
+vim.opt.signcolumn = "yes:1"    -- 行番号左にsign列を確保
 vim.opt.cursorline = true       -- カーソル行をハイライト
+vim.opt.scrolloff = 3           -- カーソル上下に表示行を確保
 
 -- 不可視文字を表示する
 vim.opt.list = true

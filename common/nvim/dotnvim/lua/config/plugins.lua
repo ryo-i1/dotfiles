@@ -612,6 +612,17 @@ require("lazy").setup({
     },
   },
 
+  -- autopairs
+  {
+    "windwp/nvim-autopairs",
+
+    event = "InsertEnter",
+
+    opts = {
+      check_ts = true,
+    },
+  },
+
 }, {
   lockfile = vim.fn.stdpath("data") .. "/lazy/lazy-lock.json",
 })
