@@ -134,13 +134,26 @@ require("lazy").setup({
       },
 
       sections = {
-        lualine_a = { "mode" },
-        lualine_b = { "branch", "diff" },
-        lualine_c = { lualine_path },
+        lualine_a = {
+          "mode",
+        },
+        lualine_b = {
+          "branch",
+          "diff",
+        },
+        lualine_c = {
+          lualine_path,
+        },
 
-        lualine_x = { "diagnostics" },
-        lualine_y = { "encoding", "filetype" },
-        lualine_z = { "location" },
+        lualine_x = {
+          "diagnostics",
+        },
+        lualine_y = {
+          "encoding",
+          "filetype",
+        },
+        lualine_z = {
+        },
       },
     },
   },
@@ -427,8 +440,8 @@ require("lazy").setup({
         "lua_ls",
         "pyright",
       },
+      automatic_enable = true,
     },
-    automatic_enable = true,
   },
 
   -- completion
