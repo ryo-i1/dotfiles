@@ -98,6 +98,71 @@ local function oil_close_or_quit()
   end
 end
 
+-- oil split
+--
+-- open entry in horizontal split
+local function oil_split()
+  require("oil.actions").select.callback({
+    horizontal = true,
+  })
+end
+
+-- oil vsplit
+--
+-- open entry in vertical split
+local function oil_vsplit()
+  require("oil.actions").select.callback({
+    vertical = true,
+  })
+end
+
+-- oil extract
+--
+-- extract archive
+local function oil_extract_archive()
+  local oil = require("oil")
+  local entry = oil.get_cursor_entry()
+  local dir = oil.get_current_dir()
+
+  if not entry or not dir then
+    return
+  end
+
+  local name = entry.name
+  local file = dir .. name
+
+  local cmd
+  if name:match("%.zip$") then
+    cmd = { "ditto", "-x", "-k", file, dir }
+
+  elseif name:match("%.tar$")
+      or name:match("%.tar%.gz$") or name:match("%.tgz$")
+      or name:match("%.tar%.bz2$") or name:match("%.tbz2$")
+      or name:match("%.tar%.xz$") or name:match("%.txz$")
+  then
+    cmd = { "bsdtar", "-xf", file, "-C", dir }
+
+  else
+    vim.notify(
+      "not supported archive: " .. name,
+      vim.log.levels.WARN
+    )
+    return
+  end
+
+  -- extract 実行
+  local result = vim.system(cmd):wait()
+  if result.code ~= 0 then
+    vim.notify(
+      result.stderr,
+      vim.log.levels.ERROR
+    )
+  end
+
+  -- reopen oil
+  oil.open(dir)
+end
+
 
 --------------------------------------------------
 -- Plugins
@@ -183,6 +248,12 @@ require("lazy").setup({
 
       keymaps = {
         ["q"] = oil_close_or_quit,
+
+        ["<leader>s"] = oil_split,
+        ["<leader>v"] = oil_vsplit,
+
+        -- 圧縮ファイルを解凍
+        ["X"] = oil_extract_archive,
       },
     },
 
@@ -237,18 +308,57 @@ require("lazy").setup({
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
+
     opts = {
+      -- markdown render を有効化する mode
       render_modes = { "n", "c", "i" },
 
+      -- sign column の使用
       sign = { enabled = false, },
+
+      -- header
       heading = {
         enabled = true,
-        icons = {  -- display icon
-          "#1. ", "#2. ", "#3. ", "#4. ", "#5. ", "#6. ",
+        icons = {
+          "# ",
+          "## ",
+          "### ",
+          "#### ",
+          "##### ",
+          "###### ",
+        },
+        conceal_delimiters = false,
+      },
+      -- itemize
+      bullet = {
+        enabled = true,
+      },
+      -- checkbox
+      checkbox = {
+        enabled = true,
+      },
+      -- code block
+      code = {
+        enabled = true,
+        border = "thick",
+        language_icon = false,
+        language_border = "-",
+        language_left = "```",
+        language_right = "",
+
+        -- ``` 行を隠さない
+        conceal_delimiters = false,
+      },
+
+      -- render 時の window option
+      win_options = {
+        conceallevel = {
+          -- render 無効時
+          default = vim.o.conceallevel,
+          -- render 有効時
+          rendered = 0,  -- conceal しない
         },
       },
-      bullet = { enabled = true, },
-      checkbox = { enabled = true, },
 
       -- display as plain only the cursor line
       anti_conceal = {
@@ -257,6 +367,7 @@ require("lazy").setup({
         below = 0,
       },
     },
+
     keys = {
       {
         "<leader>m",
@@ -267,29 +378,6 @@ require("lazy").setup({
         desc = "Toggle markdown render",
       },
     },
-
-    config = function(_, opts)
-      require("render-markdown").setup(opts)
-
-      -- heading setting
-      local function set_markdown_hl()
-        local title = vim.api.nvim_get_hl(0, { name = "Title" })
-        title.bold = true
-
-        vim.api.nvim_set_hl(0, "Title", title)
-
-        for i = 1, 6 do
-          vim.api.nvim_set_hl(0, "@markup.heading." .. i .. ".markdown", {
-              link = "Title",
-          })
-        end
-      end
-
-      set_markdown_hl()
-      vim.api.nvim_create_autocmd("ColorScheme", {
-          callback = set_markdown_hl,
-      })
-    end,
   },
 
   -- syntax highlight
@@ -319,16 +407,6 @@ require("lazy").setup({
       indent = {
         enable = true,
       },
-    },
-  },
-
-  -- pin headers
-  {
-    "nvim-treesitter/nvim-treesitter-context",
-
-    opts = {
-      multiline_threshold = 3,
-      max_lines = 5,
     },
   },
 
@@ -408,8 +486,11 @@ require("lazy").setup({
           vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
           vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
           vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+
           vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
           vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+
+          vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
         end,
       })
     end,
