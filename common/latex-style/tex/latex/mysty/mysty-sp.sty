@@ -13,12 +13,19 @@
 %   - \SPFooterLabel{label}
 %   - \SPFooterVersion{ver}
 %   - \SPFootskip{18pt}
-%   - \SPLineStretch{3.0}
+%   - \SPLineStretch{5.0}
 %
 % API (in doc):
 %   - \SPFloatBreak[htbp]{figure}
 
 \RequirePackage{mysty-common}
+
+\ifdefined\SP
+  \RequirePackage{fancyhdr}
+  \RequirePackage[dvipdfmx,truedimen]{geometry}
+  \RequirePackage{setspace}
+  \RequirePackage{caption}
+\fi
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -62,8 +69,12 @@
 
 % apply
 \newcommand{\sp@geometry@apply}{
-  \RequirePackage{geometry}
-  \expandafter\geometry\expandafter{\sp@geometry@option}
+  \edef\sp@geometry@tmp{
+    includefoot,
+    footskip=\sp@footskip,
+    \sp@geometry@option
+  }
+  \expandafter\newgeometry\expandafter{\sp@geometry@tmp}
 }
 \makeatother
 
@@ -96,17 +107,28 @@
   \fancyhf{}
   \renewcommand{\headrulewidth}{0pt}
   \renewcommand{\footrulewidth}{0.4pt}
-  \fancyfoot[C]{\sp@footer@date\quad \sp@footer@author\quad \sp@footer@label\quad ver.\sp@footer@version\quad p.\thepage}
+  \fancyfoot[C]{%
+    \sp@footer@date\quad
+    \sp@footer@author\quad
+    \sp@footer@label\quad
+    ver.\sp@footer@version\quad
+    p.\thepage
+  }
 }
 \newcommand{\sp@fancyhdr@apply}{
-  \RequirePackage{fancyhdr}
-
-  \setlength{\footskip}{\sp@footskip}
-
   \pagestyle{fancy}
   \sp@fancyhdr@setpagestyle
+  \thispagestyle{fancy}
+
   \fancypagestyle{plain}{\sp@fancyhdr@setpagestyle}
   %\fancypagestyle{empty}{\sp@fancyhdr@setpagestyle}
+}
+
+\AddToHook{cmd/maketitle/after}{
+  \ifdefined\SP
+    \pagestyle{fancy}
+    \thispagestyle{fancy}
+  \fi
 }
 \makeatother
 
@@ -117,7 +139,7 @@
 
 \makeatletter
 % internal state
-\def\sp@line@stretch{3.0}
+\def\sp@line@stretch{5.0}
 
 % API
 \newcommand{\SPLineStretch}[1]{
@@ -126,8 +148,6 @@
 
 % apply
 \newcommand{\sp@line@apply}{
- \RequirePackage{setspace}
-
  \setstretch{\sp@line@stretch}
 }
 \makeatother
@@ -159,8 +179,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Float Helper
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\RequirePackage{caption}
 
 % API
 \makeatletter
