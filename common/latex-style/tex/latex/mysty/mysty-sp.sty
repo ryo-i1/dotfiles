@@ -7,12 +7,12 @@
 %
 % API (preamble):
 %   - \SPFontSize{14pt}
-%   - \SPGeometry{margin=20truemm}
+%   - \SPGeometry{top=15truemm,bottom=5truemm,left=15truemm,right=15truemm}
 %   - \SPFooterDate{date}
 %   - \SPFooterAuthor{author}
 %   - \SPFooterLabel{label}
 %   - \SPFooterVersion{ver}
-%   - \SPFootskip{18pt}
+%   - \SPFootskip{10truemm}
 %   - \SPLineStretch{5.0}
 %
 % API (in doc):
@@ -60,7 +60,7 @@
 
 \makeatletter
 % internal state
-\def\sp@geometry@option{top=20truemm,bottom=20truemm,left=20truemm,right=20truemm}
+\def\sp@geometry@option{top=15truemm,bottom=5truemm,left=15truemm,right=15truemm}
 
 % API
 \newcommand{\SPGeometry}[1]{
@@ -74,7 +74,7 @@
     footskip=\sp@footskip,
     \sp@geometry@option
   }
-  \expandafter\newgeometry\expandafter{\sp@geometry@tmp}
+  \expandafter\geometry\expandafter{\sp@geometry@tmp}
 }
 \makeatother
 
@@ -91,7 +91,7 @@
 \def\sp@footer@author{}
 \def\sp@footer@label{}
 \def\sp@footer@version{-}
-\def\sp@footskip{18pt}
+\def\sp@footskip{10truemm}
 
 \@ifundefined{SP}{}{\def\sp@footer@version{\SP}}
 
@@ -168,7 +168,7 @@
 
 
 \makeatletter
-\AtBeginDocument{
+\AddToHook{begindocument/before}{
   \ifdefined\SP
     \sp@applyall
   \fi
