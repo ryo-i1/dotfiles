@@ -22,6 +22,9 @@ keymap("n", "k", "gk", { silent = true })
 keymap({ "n", "v" }, "<C-n>", "20j")
 keymap({ "n", "v" }, "<C-p>", "20k")
 
+-- register
+vim.fn.setreg("d", [[nf{mz%x`zvF\d`}]])
+
 --------------------------------------------------
 -- Insert blank lines
 --------------------------------------------------
