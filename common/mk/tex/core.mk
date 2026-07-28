@@ -26,6 +26,10 @@ v ?=
 #   make sp
 SP := $(or $(SP),$(sp),0)
 
+REQUESTED_GOALS := $(if $(MAKECMDGOALS),$(MAKECMDGOALS),all)
+NO_DOC_GOALS   := clean distclean help
+NEED_DOC_GOALS := $(filter-out $(NO_DOC_GOALS),$(REQUESTED_GOALS))
+
 
 ##################################################
 # Main document detection
@@ -33,32 +37,34 @@ SP := $(or $(SP),$(sp),0)
 
 all_docs := $(basename $(notdir $(wildcard *.tex)))
 
+ifneq ($(strip $(NEED_DOC_GOALS)),)
 ifeq ($(strip $(MAIN_DOC)),)
 ifeq ($(words $(all_docs)),1)
-	MAIN_DOC := $(firstword $(all_docs))
+MAIN_DOC := $(firstword $(all_docs))
 else ifeq ($(words $(all_docs)),0)
-	$(error no .tex file found)
+$(error no .tex file found)
 else
-	$(error MAIN_DOC is not specified and multiple .tex files exist. Please set MAIN_DOC in your project Makefile)
+$(error MAIN_DOC is not specified and multiple .tex files exist)
 endif
 endif
 
 ifeq ($(strip $(SUB_DOCS)),)
 ifneq ($(strip $(MAIN_DOC)),)
-	SUB_DOCS := $(filter-out $(MAIN_DOC),$(all_docs))
+SUB_DOCS := $(filter-out $(MAIN_DOC),$(all_docs))
 endif
 endif
 
 ifeq ($(REQUIRE_V),1)
 ifeq ($(strip $(v)),)
-	$(error v is required because REQUIRE_V=1)
+$(error v is required because REQUIRE_V=1)
 endif
 endif
 
 # require v when SP build
 ifeq ($(SP),1)
 ifeq ($(strip $(v)),)
-	$(error v is required when SP=1)
+$(error v is required when SP=1)
+endif
 endif
 endif
 
@@ -76,6 +82,12 @@ endif
 
 ifneq ($(strip $(v)),)
 	SUFFIX := $(SUFFIX)_v$(v)
+endif
+
+ifeq ($(SP),1)
+TEX_INPUT := "\def\SP{$(v)}\input{$(MAIN_DOC).tex}"
+else
+TEX_INPUT := "$(MAIN_DOC).tex"
 endif
 
 JOBNAME := $(JOBBASE)$(SUFFIX)
@@ -106,7 +118,7 @@ endif
 ##################################################
 
 define run_platex
-$(PLATEX) $(TEX_FLAGS) -jobname=$(JOBNAME) $(if $(filter 1,$(SP)),"\def\SP{$(v)}\input{$(MAIN_DOC).tex}","$(MAIN_DOC).tex")
+$(PLATEX) $(TEX_FLAGS) -jobname=$(JOBNAME) $(TEX_INPUT)
 endef
 
 define run_bibtex_if_needed
@@ -150,11 +162,13 @@ sp:
 	$(MAKE) SP=1 open
 
 clean:
-	$(RM) *.aux *.bbl *.blg *.dvi *.log *.out *.toc *.lof *.lot *.fls *.fdb_latexmk *.synctex.gz
+	$(RM) *.aux *.bbl *.blg *.dvi *.log *.out *.toc *.lof *.lot
+	$(RM) *.fls *.fdb_latexmk *.synctex.gz
 
 distclean: clean
 	$(RM) *_v*.pdf *_v*.dvi *_v*.aux *_v*.bbl *_v*.blg *_v*.log *_v*.out *_v*.toc
-	$(RM) *_sp*.pdf *_sp*.dvi *_sp*.aux *_sp*.bbl *_sp*.blg *_sp*.log *_sp*.out *_sp*.toc
+	$(RM) *_sp*.pdf *_sp*.dvi *_sp*.aux *_sp*.bbl *_sp*.blg
+	$(RM) *_sp*.log *_sp*.out *_sp*.toc
 	$(RM) *.pdf
 
 check:
