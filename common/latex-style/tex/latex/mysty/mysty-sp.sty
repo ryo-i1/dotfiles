@@ -7,6 +7,7 @@
 %
 % API (preamble):
 %   - \SPFontSize{14pt}
+%   - \SPKeepSmallFontNormal
 %   - \SPGeometry{top=15truemm,bottom=5truemm,left=15truemm,right=15truemm}
 %   - \SPFooterDate{date}
 %   - \SPFooterAuthor{author}
@@ -35,21 +36,30 @@
 \makeatletter
 % internal state
 \def\sp@fontsize@base{}
+\newif\ifsp@fontsize@keep@small
+\sp@fontsize@keep@smallfalse
 
 %API
 \newcommand{\SPFontSize}[1]{
   \def\sp@fontsize@base{#1}
 }
+\newcommand{\SPKeepSmallFontNormal}{
+  \sp@fontsize@keep@smalltrue
+}
 
 % apply
 \newcommand{\sp@fontsize@apply}{
+  \ifsp@fontsize@keep@small
+    \MCKeepSmallFontNormal
+  \fi
+
   \ifx\sp@fontsize@base\@empty
     % do nothing
   \else
-    \MCKeepSmallFontNormal
     \MCFontSize{\sp@fontsize@base}
-    \mc@fontsize@apply
   \fi
+
+  \mc@fontsize@apply
 }
 \makeatother
 

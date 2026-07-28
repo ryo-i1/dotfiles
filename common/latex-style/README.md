@@ -104,7 +104,8 @@
 
 | command | default | example | description |
 |---|---:|---|---|
-| `\SPFontSize{<size>}` | unset | `\SPFontSize{14pt}` | `\MCKeepSmallFontNormal` と `\MCFontSize{<size>}` を適用します． |
+| `\SPFontSize{<size>}` | unset | `\SPFontSize{14pt}` | SP モード用の基準フォントサイズです．SP モードでは `\MCFontSize` より優先されます． |
+| `\SPKeepSmallFontNormal` | unset | `\SPKeepSmallFontNormal` | SP モードで `\small`, `\footnotesize`, `\scriptsize`, `\tiny` を `\normalsize` 相当にします． |
 | `\SPGeometry{<options>}` | `top=15truemm,bottom=5truemm,left=15truemm,right=15truemm` | `\SPGeometry{top=15truemm,bottom=5truemm,left=15truemm,right=15truemm}` | `geometry` に渡す余白設定です．`includefoot` と `footskip` は自動で追加されます． |
 | `\SPFooterDate{<date>}` | current date | `\SPFooterDate{2026/07/17}` | フッターの日付を指定します． |
 | `\SPFooterAuthor{<author>}` | empty | `\SPFooterAuthor{Ryo}` | フッターの著者欄を指定します． |
@@ -126,7 +127,7 @@
 | area | settings |
 |---|---|
 | packages | `fancyhdr`, `geometry[dvipdfmx,truedimen]`, `setspace`, `caption` |
-| font size | `\SPFontSize` が指定されていれば，通常フォントと数式サイズを再設定 |
+| font size | `\SPFontSize` が指定されていれば，`\MCFontSize` より優先して通常フォントと数式サイズを再設定 |
 | geometry | `includefoot`, `footskip=<\SPFootskip>`, `\SPGeometry` のオプションを適用 |
 | footer | 中央フッターに `date author label ver.<version> p.<page>` を表示 |
 | page style | `fancy` と `plain` に同じフッター設定を適用 |
@@ -140,6 +141,7 @@
 \usepackage{mysty-sp}
 
 \SPFontSize{14pt}
+\SPKeepSmallFontNormal
 \SPGeometry{top=15truemm,bottom=5truemm,left=15truemm,right=15truemm}
 \SPFooterDate{2026/07/17}
 \SPFooterAuthor{Ryo}
