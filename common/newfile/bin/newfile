@@ -1,0 +1,189 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# newfile
+# Create files/directories from templates.
+
+##################################################
+# Constants
+##################################################
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+package_root="$(cd "${script_dir}/.." && pwd)"
+
+template_roots=(
+    "${NEWFILE_TEMPLATE_DIR:-}"
+    "${HOME}/local/share/newfile/templates"
+    "${package_root}/templates"
+)
+
+tex_types=(tex latex)
+
+
+##################################################
+# Logging
+##################################################
+
+die() {
+    printf '[ERROR] %s\n' "$*" >&2
+    exit 1
+}
+
+usage() {
+    cat <<'EOF'
+usage:
+  newfile TYPE NAME
+  newfile NAME
+  newfile --help
+
+examples:
+  newfile tex report
+  newfile latex report
+
+types:
+  tex, latex  create a LaTeX project directory
+
+environment:
+  NEWFILE_TEMPLATE_DIR  override template directory
+EOF
+}
+
+
+##################################################
+# Utilities
+##################################################
+
+contains_type() {
+    local target=$1
+    shift
+
+    local type
+    for type in "$@"; do
+        [[ "${target}" == "${type}" ]] && return 0
+    done
+
+    return 1
+}
+
+detect_type_from_name() {
+    local name=$1
+    local base ext
+
+    base="$(basename "${name}")"
+    ext="${base##*.}"
+
+    if [[ "${base}" == "${ext}" ]]; then
+        die "unable to detect type from '${name}'"
+    fi
+
+    printf '%s\n' "${ext}"
+}
+
+find_template_root() {
+    local root
+
+    for root in "${template_roots[@]}"; do
+        [[ -n "${root}" ]] || continue
+        if [[ -d "${root}" ]]; then
+            printf '%s\n' "${root}"
+            return 0
+        fi
+    done
+
+    die "template directory not found"
+}
+
+replace_placeholders_in_file() {
+    local file=$1
+    local filename=$2
+    local date=$3
+    local tmp="${file}.tmp.$$"
+    local line
+
+    : > "${tmp}"
+    while IFS= read -r line || [[ -n "${line}" ]]; do
+        line="${line//@FILENAME@/${filename}}"
+        line="${line//@DATE@/${date}}"
+        printf '%s\n' "${line}" >> "${tmp}"
+    done < "${file}"
+
+    mv "${tmp}" "${file}"
+}
+
+replace_placeholders_in_tree() {
+    local root=$1
+    local filename=$2
+    local date
+    local path new_path
+
+    date="$(date '+%Y/%m/%d')"
+
+    while IFS= read -r -d '' path; do
+        replace_placeholders_in_file "${path}" "${filename}" "${date}"
+    done < <(find "${root}" -type f -print0)
+
+    while IFS= read -r -d '' path; do
+        new_path="${path//@FILENAME@/${filename}}"
+        if [[ "${path}" != "${new_path}" ]]; then
+            mv "${path}" "${new_path}"
+        fi
+    done < <(find "${root}" -depth -print0)
+}
+
+create_from_template() {
+    local template=$1
+    local output=$2
+    local filename=$3
+
+    [[ -e "${template}" ]] || die "template not found: ${template}"
+    [[ ! -e "${output}" ]] || die "'${output}' already exists"
+
+    cp -R "${template}" "${output}"
+    replace_placeholders_in_tree "${output}" "${filename}"
+
+    printf '[INFO] created: %s\n' "${output}"
+}
+
+
+##################################################
+# Main
+##################################################
+
+main() {
+    local type name filename template_root template
+
+    case "${1:-}" in
+        -h|--help)
+            usage
+            return
+            ;;
+    esac
+
+    case $# in
+        1)
+            name=$1
+            type="$(detect_type_from_name "${name}")"
+            ;;
+        2)
+            type="${1#.}"
+            name=$2
+            ;;
+        *)
+            usage >&2
+            exit 1
+            ;;
+    esac
+
+    template_root="$(find_template_root)"
+
+    if contains_type "${type}" "${tex_types[@]}"; then
+        filename="$(basename "${name}")"
+        template="${template_root}/tex/@FILENAME@"
+        create_from_template "${template}" "${name}" "${filename}"
+        return
+    fi
+
+    die "invalid type: ${type}"
+}
+
+main "$@"
