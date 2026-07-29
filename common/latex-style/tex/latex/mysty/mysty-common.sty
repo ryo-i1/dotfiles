@@ -124,9 +124,9 @@
 \@mc@citeusedfalse
 
 \let\mc@cite@orig\cite
-\renewcommand{\cite}[1]{
-  \global\@mc@citeusedtrue
-  \mc@cite@orig{#1}
+\renewcommand{\cite}[1]{%
+  \global\@mc@citeusedtrue%
+  \mc@cite@orig{#1}%
 }
 \makeatother
 
